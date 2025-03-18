@@ -38,7 +38,7 @@ export default function SideBar() {
         {/* Add icons to the links using the .nav-icon class
          with font-awesome or any other icon font library */}
         <li className="nav-item menu-open">
-          <a href="#" className="nav-link active">
+          <a href="/" className="nav-link active">
             <i className="nav-icon fas fa-tachometer-alt" />
             <p>
               Dashboard
@@ -47,12 +47,12 @@ export default function SideBar() {
           </a>
           <ul className="nav nav-treeview">
             <li className="nav-item">
-              <a href="./index.html" className="nav-link active">
+              <a href="/" className="nav-link active">
                 <i className="far fa-circle nav-icon" />
-                <p>Dashboard v1</p>
+                <p>Dashboard</p>
               </a>
             </li>
-            <li className="nav-item">
+            {/* <li className="nav-item">
               <a href="./index2.html" className="nav-link">
                 <i className="far fa-circle nav-icon" />
                 <p>Dashboard v2</p>
@@ -63,7 +63,7 @@ export default function SideBar() {
                 <i className="far fa-circle nav-icon" />
                 <p>Dashboard v3</p>
               </a>
-            </li>
+            </li> */}
           </ul>
         </li>
         <li className="nav-item">
