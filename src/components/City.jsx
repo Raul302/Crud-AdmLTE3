@@ -1,6 +1,90 @@
-import React, { useState } from 'react'
+import axios from 'axios';
+import React, { useEffect, useState } from 'react'
+
 
 export default function City() {
+
+  useEffect(()=>{
+
+    loadCities();
+
+  },[])
+
+  const [cities,set_cities] = useState([
+    {city_id:1 , city: 'Luis raul' , last_update:'12/12/12'},
+    {city_id:2 , city: 'Jose raul' , last_update:'12/11/12'},
+    {city_id:3 , city: 'Luis Angel' , last_update:'12/08/12'}
+])
+
+const [city,set_city] = useState({
+  city : '',
+  last_update: '',
+  city_id: 0
+})
+
+
+const loadCities = () => {
+
+  axios.get('http://127.0.0.1:8000/api/city')
+  .then(function (response) {
+   console.log('Carga exitoso')
+   console.log(response);
+   set_cities(response.data.cities)
+  
+  }).catch(function( error) {
+   console.log('Something was wrong')
+
+   
+  });
+
+}
+
+
+const delete_city = (id) => {
+  axios.post('http://127.0.0.1:8000/api/actor/delete?id=' + id)
+         .then(function (response) {
+          console.log('Eliminacion exitoso')
+          loadCities()
+         
+         }).catch(function( error) {
+          console.log('Something was wrong')
+
+          
+         });
+  
+}
+
+const save_or_edit_city = () => {
+  const url = city.city_id == 0 ? 'create' : 'edit'
+  const obj_city = {
+    id : city.city_id != 0 ? city.city_id : null,
+    city : city.city,
+    last_update : city.last_update
+  }
+
+   axios.post('http://127.0.0.1:8000/api/actor/' + url,obj_city)
+         .then(function (response) {
+          console.log('Guardado exitoso')
+          loadCities()
+         
+         }).catch(function( error) {
+          console.log('Something was wrong')
+
+          
+         });
+
+}
+
+
+const edit_city = (city) => {
+  console.log('city',city);
+  set_city(city)
+}
+const change_name = (e) =>{
+  const value = e.target.value
+  set_city({...city,city:value})
+}
+
 
    
   return (
@@ -17,14 +101,14 @@ export default function City() {
     <div className="card-body">
       <div className="form-group">
         <label htmlFor="exampleInputEmail1">Name</label>
-        <input type="text" className="form-control" id="exampleInputtext1" placeholder="Enter first name" />
+        <input type="text"  onChange={(e) => change_name(e)} value={city.city} className="form-control" id="exampleInputtext1" placeholder="Enter first name" />
       </div>
     
      
     </div>
     {/* /.card-body */}
     <div className="card-footer">
-      <button type="submit" className="btn btn-primary">Submit</button>
+      <button type="button" onClick={(e)=>save_or_edit_city()}className="btn btn-primary">Submit</button>
     </div>
   </form>
 </div>
@@ -54,47 +138,23 @@ export default function City() {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>Juanito solorzano</td>
-                    <td>12/12/12</td>
+                 
+                {cities.map(cit =>{
+                 return( <tr>
+                    <td>{cit.city_id}</td>
+                    <td>{cit.city}</td>
 
                     <td className="text-right py-0 align-middle">
                       <div className="btn-group btn-group-sm">
-                        <a href="#" className="btn btn-info"><i className="fas fa-edit" /></a>
-                        <a href="#" className="btn btn-danger"><i className="fas fa-trash" /></a>
+                        <a onClick={(e) => edit_city(cit)} className="btn btn-info"><i className="fas fa-edit" /></a>
+                        <a  onClick={(e) => delete_city(cit.city_id)} className="btn btn-danger"><i className="fas fa-trash" /></a>
                       </div>
                     </td>
                   </tr>
+                 )
+                })}
 
-                  <tr>
-                    <td>1</td>
-                    <td>Juanito solorzano</td>
-                    <td>12/12/12</td>
-
-                    <td className="text-right py-0 align-middle">
-                      <div className="btn-group btn-group-sm">
-                        <a href="#" className="btn btn-info"><i className="fas fa-edit" /></a>
-                        <a href="#" className="btn btn-danger"><i className="fas fa-trash" /></a>
-                      </div>
-                    </td>
-                  </tr>
-
-
-
-                  <tr>
-                    <td>1</td>
-                    <td>Juanito solorzano</td>
-                    <td>12/12/12</td>
-
-                    <td className="text-right py-0 align-middle">
-                      <div className="btn-group btn-group-sm">
-                        <a href="#" className="btn btn-info"><i className="fas fa-edit" /></a>
-                        <a href="#" className="btn btn-danger"><i className="fas fa-trash" /></a>
-                      </div>
-                    </td>
-                  </tr>
-
+                 
 
 
                 </tbody>

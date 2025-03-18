@@ -10,23 +10,24 @@ export default function Actor() {
   },[])
 
   const [actors,set_actors] = useState([
-    {id:1 , first_name: 'Luis raul', last_name:'perez marin' , last_update:'12/12/12'},
-    {id:2 , first_name: 'Jose raul', last_name:'perez Dominguez' , last_update:'12/11/12'},
-    {id:3 , first_name: 'Luis Angel', last_name:'Solorzano marin' , last_update:'12/08/12'}
+    {actor_id:1 , first_name: 'Luis raul', last_name:'perez marin' , last_update:'12/12/12'},
+    {actor_id:2 , first_name: 'Jose raul', last_name:'perez Dominguez' , last_update:'12/11/12'},
+    {actor_id:3 , first_name: 'Luis Angel', last_name:'Solorzano marin' , last_update:'12/08/12'}
 ])
 
 const [actor,set_actor] = useState({
   first_name : '',
   last_name: '',
-  id: 0
+  actor_id: 0
 })
 
 const loadActors = () => {
 
-  axios.post('url.com/loadactors')
+  axios.get('http://127.0.0.1:8000/api/actors')
   .then(function (response) {
    console.log('Carga exitoso')
-   set_actors(response.data)
+   console.log(response);
+   set_actors(response.data.actors)
   
   }).catch(function( error) {
    console.log('Something was wrong')
@@ -38,7 +39,7 @@ const loadActors = () => {
 
 
 const delete_actor = (id) => {
-  axios.post('url.com/delete' + id)
+  axios.post('http://127.0.0.1:8000/api/actor/delete?id=' + id)
          .then(function (response) {
           console.log('Eliminacion exitoso')
           loadActors()
@@ -52,14 +53,14 @@ const delete_actor = (id) => {
 }
 
 const save_or_edit_actor = () => {
-  const url = actor.id == 0 ? 'create' : 'update'
+  const url = actor.actor_id == 0 ? 'create' : 'edit'
   const obj_actor = {
-    id : actor.id != 0 ? actor.id : null,
+    id : actor.actor_id != 0 ? actor.actor_id : null,
     first_name : actor.first_name,
     last_name : actor.last_name
   }
 
-   axios.post('url.com/' + url,obj_actor)
+   axios.post('http://127.0.0.1:8000/api/actor/' + url,obj_actor)
          .then(function (response) {
           console.log('Guardado exitoso')
           loadActors()
@@ -145,7 +146,7 @@ const change_last_name = (e) =>{
                 <tbody>
                 {actors.map(act =>{
                  return( <tr>
-                    <td>{act.id}</td>
+                    <td>{act.actor_id}</td>
                     <td>{act.first_name}</td>
                     <td>{act.last_name}</td>
                     <td>{act.last_update}</td>
@@ -153,7 +154,7 @@ const change_last_name = (e) =>{
                     <td className="text-right py-0 align-middle">
                       <div className="btn-group btn-group-sm">
                         <a onClick={(e) => edit_actor(act)} className="btn btn-info"><i className="fas fa-edit" /></a>
-                        <a  onClick={(e) => delete_actor(act.id)} className="btn btn-danger"><i className="fas fa-trash" /></a>
+                        <a  onClick={(e) => delete_actor(act.actor_id)} className="btn btn-danger"><i className="fas fa-trash" /></a>
                       </div>
                     </td>
                   </tr>

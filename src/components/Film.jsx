@@ -1,52 +1,153 @@
-import React from 'react'
+import axios from 'axios';
+import React, { useEffect, useState } from 'react'
 
 export default function Film() {
+
+
+  useEffect(() => {
+
+    loadFilms();
+
+  }, [])
+
+  const [films, set_films] = useState([
+    { film_id: 1, title: 'Luis raul', description: 'perez marin', release_year: '12/12/12', length: 0, duration: 0 },
+    { film_id: 2, title: 'Jose raul', description: 'perez Dominguez', release_year: '12/11/12', length: 0, duration: 0 },
+    { film_id: 3, title: 'Luis Angel', description: 'Solorzano marin', release_year: '12/08/12', length: 0, duration: 0 }
+  ])
+
+  const [film, set_film] = useState({
+    title: '',
+    description: '',
+    release_year: 0,
+    length: 0,
+    duration: 0,
+  })
+
+  const loadFilms = () => {
+
+    axios.get('http://127.0.0.1:8000/api/films')
+      .then(function (response) {
+        console.log('Carga exitoso')
+        console.log(response);
+        set_films(response.data.films)
+
+      }).catch(function (error) {
+        console.log('Something was wrong')
+
+
+      });
+
+  }
+
+
+  const delete_film = (id) => {
+    axios.post('http://127.0.0.1:8000/api/film/delete?id=' + id)
+      .then(function (response) {
+        console.log('Eliminacion exitoso')
+        loadFilms()
+
+      }).catch(function (error) {
+        console.log('Something was wrong')
+      });
+  }
+
+  const save_or_edit_film = () => {
+    const url = film.film_id == 0 ? 'create' : 'edit'
+    const obj_film = {
+      id : film.film_id != 0 ? film.film_id : null,
+      title : film.title,
+      description: film.description , 
+      release_year: film.release_year,
+      length: film.length, 
+      duration : film.duration,
+    }
+  
+     axios.post('http://127.0.0.1:8000/api/film/' + url,obj_film)
+           .then(function (response) {
+            console.log('Guardado exitoso')
+            loadFilms()
+           
+           }).catch(function( error) {
+            console.log('Something was wrong')
+  
+            
+           });
+  
+  }
+  
+  
+  const edit_film = (film) => {
+    set_film(film)
+  }
+  const change_title = (e) =>{
+    const value = e.target.value
+    set_film({...film,title:value})
+  }
+  const change_description = (e) =>{
+    const value = e.target.value
+    set_film({...film,description:value})
+  }
+  const change_release_year = (e) =>{
+    const value = e.target.value
+    set_film({...film,release_year:value})
+  }
+  const change_length = (e) =>{
+    const value = e.target.value
+    set_film({...film,length:value})
+  }
+  const change_duration = (e) =>{
+    const value = e.target.value
+    set_film({...film,duration:value})
+  }
+
+
   return (
     <section style={{ marginLeft: '20%' }} class="content">
       <div class="row">
-      <div class="col-md-6">
-        <div className="card card-primary">
-  <div className="card-header">
-    <h3 className="card-title">Films</h3>
-  </div>
-  {/* /.card-header */}
-  {/* form start */}
-  <form>
-    <div className="card-body">
-      <div className="form-group">
-        <label htmlFor="exampleInputEmail1">Title</label>
-        <input type="text" className="form-control" id="exampleInputtext1" placeholder="Enter first name" />
-      </div>
-      <div className="form-group">
-        <label htmlFor="exampleInputtext1">Description</label>
-        <input type="textarea" className="form-control" id="exampleInputtext1" placeholder="Enter last name" />
-      </div>
-      <div className="form-group">
-        <label htmlFor="exampleInputtext1">Release year</label>
-        <input type="number" min="1900" className="form-control" id="exampleInputtext1" placeholder="Enter year" />
-      </div>
+        <div class="col-md-6">
+          <div className="card card-primary">
+            <div className="card-header">
+              <h3 className="card-title">Films</h3>
+            </div>
+            {/* /.card-header */}
+            {/* form start */}
+            <form>
+              <div className="card-body">
+                <div className="form-group">
+                  <label htmlFor="exampleInputEmail1">Title</label>
+                  <input type="text" onChange={(e) => change_title(e)} value={film.title} className="form-control" id="exampleInputtext1" placeholder="Enter first name" />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="exampleInputtext1">Description</label>
+                  <input type="textarea" onChange={(e) => change_description(e)} value={film.description}  className="form-control" id="exampleInputtext1" placeholder="Enter last name" />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="exampleInputtext1">Release year</label>
+                  <input type="number" min="1900" onChange={(e) => change_release_year(e)} value={film.release_year}  className="form-control" id="exampleInputtext1" placeholder="Enter year" />
+                </div>
 
-      <div className="form-group">
-        <label htmlFor="exampleInputtext1">Length</label>
-        <input type="number" min="1900" className="form-control" id="exampleInputtext1" placeholder="Enter year" />
-      </div>
-     
+                <div className="form-group">
+                  <label htmlFor="exampleInputtext1">Length</label>
+                  <input type="number" min="1900" onChange={(e) => change_release_year(e)} value={film.length}  className="form-control" id="exampleInputtext1" placeholder="Enter year" />
+                </div>
 
-      <div className="form-group">
-        <label htmlFor="exampleInputtext1">Duration</label>
-        <input type="number" min="30" className="form-control" id="exampleInputtext1" placeholder="Enter duration" />
-      </div>
-     
-    </div>
-    {/* /.card-body */}
-    <div className="card-footer">
-      <button type="submit" className="btn btn-primary">Submit</button>
-    </div>
-  </form>
-</div>
+
+                <div className="form-group">
+                  <label htmlFor="exampleInputtext1">Duration</label>
+                  <input type="number" min="30" onChange={(e) => change_duration(e)} value={film.duration}   className="form-control" id="exampleInputtext1" placeholder="Enter duration" />
+                </div>
+
+              </div>
+              {/* /.card-body */}
+              <div className="card-footer">
+                <button type="button" onClick={(e)=>save_or_edit_film()} className="btn btn-primary">Submit</button>
+              </div>
+            </form>
+          </div>
 
         </div>
-        
+
         <div class="col-md-10">
           {/* /.card */}
           <div className="card card-info">
@@ -73,54 +174,27 @@ export default function Film() {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>Scary movie</td>
-                    <td>Its a movie about ghostface but in parody</td>
-                    <td>2009</td>
-                    <td>3</td>
-                    <td>120min</td>
+                 
+                  {films.map(fil =>{
+                 return( <tr>
+                    <td>{fil.film_id}</td>
+                    <td>{fil.title}</td>
+                    <td>{fil.description}</td>
+                    <td>{fil.release_year}</td>
+                    <td>{fil.length}</td>
+                    <td>{fil.duration}</td>
 
                     <td className="text-right py-0 align-middle">
                       <div className="btn-group btn-group-sm">
-                        <a href="#" className="btn btn-info"><i className="fas fa-edit" /></a>
-                        <a href="#" className="btn btn-danger"><i className="fas fa-trash" /></a>
+                        <a onClick={(e) => edit_film(fil)} className="btn btn-info"><i className="fas fa-edit" /></a>
+                        <a  onClick={(e) => delete_film(fil.film_id)} className="btn btn-danger"><i className="fas fa-trash" /></a>
                       </div>
                     </td>
                   </tr>
+                 )
+                })}
 
-                  <tr>
-                    <td>1</td>
-                    <td>Scary movie</td>
-                    <td>Its a movie about ghostface but in parody</td>
-                    <td>2009</td>
-                    <td>3</td>
-                    <td>120min</td>
-
-                    <td className="text-right py-0 align-middle">
-                      <div className="btn-group btn-group-sm">
-                        <a href="#" className="btn btn-info"><i className="fas fa-edit" /></a>
-                        <a href="#" className="btn btn-danger"><i className="fas fa-trash" /></a>
-                      </div>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>1</td>
-                    <td>Scary movie</td>
-                    <td>Its a movie about ghostface but in parody</td>
-                    <td>2009</td>
-                    <td>3</td>
-                    <td>120min</td>
-
-                    <td className="text-right py-0 align-middle">
-                      <div className="btn-group btn-group-sm">
-                        <a href="#" className="btn btn-info"><i className="fas fa-edit" /></a>
-                        <a href="#" className="btn btn-danger"><i className="fas fa-trash" /></a>
-                      </div>
-                    </td>
-                  </tr>
-
+               
 
                 </tbody>
               </table>
@@ -132,7 +206,7 @@ export default function Film() {
 
 
         </div>
-     
+
       </div>
     </section >
   )
