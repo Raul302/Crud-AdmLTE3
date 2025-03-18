@@ -23,7 +23,7 @@ export default function Category() {
 
   const loadCategories = () => {
 
-    axios.get('http://127.0.0.1:8000/api/category')
+    axios.get('http://127.0.0.1:8000/api/categories')
     .then(function (response) {
      console.log('Carga exitoso')
      console.log(response);

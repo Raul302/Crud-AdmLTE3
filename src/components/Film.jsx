@@ -11,9 +11,9 @@ export default function Film() {
   }, [])
 
   const [films, set_films] = useState([
-    { film_id: 1, title: 'Luis raul', description: 'perez marin', release_year: '12/12/12', length: 0, duration: 0 },
-    { film_id: 2, title: 'Jose raul', description: 'perez Dominguez', release_year: '12/11/12', length: 0, duration: 0 },
-    { film_id: 3, title: 'Luis Angel', description: 'Solorzano marin', release_year: '12/08/12', length: 0, duration: 0 }
+    { film_id: 1, title: 'Luis raul', description: 'perez marin', release_year: '12/12/12', length: 0},
+    { film_id: 2, title: 'Jose raul', description: 'perez Dominguez', release_year: '12/11/12', length: 0},
+    { film_id: 3, title: 'Luis Angel', description: 'Solorzano marin', release_year: '12/08/12', length: 0}
   ])
 
   const [film, set_film] = useState({
@@ -21,7 +21,7 @@ export default function Film() {
     description: '',
     release_year: 0,
     length: 0,
-    duration: 0,
+    rating: 0,
   })
 
   const loadFilms = () => {
@@ -60,7 +60,6 @@ export default function Film() {
       description: film.description , 
       release_year: film.release_year,
       length: film.length, 
-      duration : film.duration,
     }
   
      axios.post('http://127.0.0.1:8000/api/film/' + url,obj_film)
@@ -96,11 +95,6 @@ export default function Film() {
     const value = e.target.value
     set_film({...film,length:value})
   }
-  const change_duration = (e) =>{
-    const value = e.target.value
-    set_film({...film,duration:value})
-  }
-
 
   return (
     <section style={{ marginLeft: '20%' }} class="content">
@@ -129,13 +123,7 @@ export default function Film() {
 
                 <div className="form-group">
                   <label htmlFor="exampleInputtext1">Length</label>
-                  <input type="number" min="1900" onChange={(e) => change_release_year(e)} value={film.length}  className="form-control" id="exampleInputtext1" placeholder="Enter year" />
-                </div>
-
-
-                <div className="form-group">
-                  <label htmlFor="exampleInputtext1">Duration</label>
-                  <input type="number" min="30" onChange={(e) => change_duration(e)} value={film.duration}   className="form-control" id="exampleInputtext1" placeholder="Enter duration" />
+                  <input type="number" min="1900" onChange={(e) => change_length(e)} value={film.length}  className="form-control" id="exampleInputtext1" placeholder="Enter year" />
                 </div>
 
               </div>
@@ -168,7 +156,6 @@ export default function Film() {
                     <th>Description</th>
                     <th>Release year</th>
                     <th>Length</th>
-                    <th>Duration</th>
                     <th>Actions</th>
                     <th />
                   </tr>
@@ -182,7 +169,6 @@ export default function Film() {
                     <td>{fil.description}</td>
                     <td>{fil.release_year}</td>
                     <td>{fil.length}</td>
-                    <td>{fil.duration}</td>
 
                     <td className="text-right py-0 align-middle">
                       <div className="btn-group btn-group-sm">
