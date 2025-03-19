@@ -8,6 +8,7 @@ import Actor from './components/Actor';
 import Film from './components/Film';
 import Category from './components/Category';
 import City from './components/City';
+import Address from './components/Address';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
       <Route path="/film" element={<Film/>} />
       <Route path="/category" element={<Category/>} />
       <Route path="/city" element={<City/>} />
+      <Route path="/address" element={<Address/>} />
       <Route exact path="/" element={<Dashboard/>} />
 
      {/* <Home /> */}
