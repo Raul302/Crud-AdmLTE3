@@ -24,17 +24,17 @@ export default function Category() {
   const loadCategories = () => {
 
     axios.get('http://127.0.0.1:8000/api/category')
-      .then(function (response) {
-        console.log('Carga exitoso')
-        console.log(response);
-        set_categories(response.data.categories)
-
-      }).catch(function (error) {
-        console.log('Something was wrong')
-
-
-      });
-
+    .then(function (response) {
+     console.log('Carga exitoso')
+     console.log(response);
+     set_categories(response.data.categories)
+    
+    }).catch(function( error) {
+     console.log('Something was wrong')
+  
+     
+    });
+  
   }
 
 

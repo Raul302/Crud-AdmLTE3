@@ -25,7 +25,7 @@ const [city,set_city] = useState({
 
 const loadCities = () => {
 
-  axios.get('http://127.0.0.1:8000/api/city')
+  axios.get('http://127.0.0.1:8000/api/cities')
   .then(function (response) {
    console.log('Carga exitoso')
    console.log(response);
@@ -41,7 +41,7 @@ const loadCities = () => {
 
 
 const delete_city = (id) => {
-  axios.post('http://127.0.0.1:8000/api/actor/delete?id=' + id)
+  axios.post('http://127.0.0.1:8000/api/city/delete?id=' + id)
          .then(function (response) {
           console.log('Eliminacion exitoso')
           loadCities()
@@ -62,7 +62,7 @@ const save_or_edit_city = () => {
     last_update : city.last_update
   }
 
-   axios.post('http://127.0.0.1:8000/api/actor/' + url,obj_city)
+   axios.post('http://127.0.0.1:8000/api/city/' + url,obj_city)
          .then(function (response) {
           console.log('Guardado exitoso')
           loadCities()
