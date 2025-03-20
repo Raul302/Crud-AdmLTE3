@@ -3,28 +3,28 @@ import React, { useEffect, useState } from 'react'
 import url from '../constants/constants';
 
 
-export default function Language() {
+export default function Film_Category() {
 
   useEffect(()=>{
 
-    load_languages();
+    load_film_category();
 
   },[])
 
-  const [languages,set_languages] = useState([
-    {language_id: 1 , name: 'Spanish'},
-    {language_id: 1 , name: 'Spanish'},
-    {language_id: 1 , name: 'Spanish'}
+  const [film_categories,set_film_categories] = useState([
+    {film_id : 1 , title_film : 'fifty grey shadows',category_id: 1 , name: 'drama'},
+    {film_id : 1 , title_film : 'fifty grey shadows',category_id: 1 , name: 'drama'},
+    {film_id : 1 , title_film : 'fifty grey shadows',category_id: 1 , name: 'drama'}
 ])
 
 
-const load_languages = () => {
+const load_film_category = () => {
 
-  axios.get(url+'/languages')
+  axios.get(url+'/film_categories')
   .then(function (response) {
    console.log('Carga exitoso')
    console.log(response);
-   set_languages(response.data.languages)
+   set_film_categories(response.data.film_categories)
   
   }).catch(function( error) {
    console.log('Something was wrong')
@@ -47,7 +47,7 @@ const load_languages = () => {
           {/* /.card */}
           <div className="card card-info">
             <div className="card-header">
-              <h3 className="card-title">Languages</h3>
+              <h3 className="card-title">Film Category</h3>
               <div className="card-tools">
                 <button type="button" className="btn btn-tool" data-card-widget="collapse" title="Collapse">
                   <i className="fas fa-minus" />
@@ -58,17 +58,21 @@ const load_languages = () => {
               <table className="table">
                 <thead>
                   <tr>
-                    <th>Language ID</th>
-                    <th>name</th>
+                    <th>Film ID</th>
+                    <th>Title film</th>
+                    <th>Category ID</th>
+                    <th>Name</th>
                     <th />
                   </tr>
                 </thead>
                 <tbody>
                  
-                {languages.map(language =>{
+                {film_categories.map(film =>{
                  return( <tr>
-                    <td>{language.language_id}</td>
-                    <td>{language.name}</td>
+                    <td>{film.film_id}</td>
+                    <td>{film.title_film}</td>
+                    <td>{film.category_id}</td>
+                    <td>{film.name}</td>
 
                   </tr>
                  )

@@ -17,21 +17,21 @@ export default function FilmActor() {
 
   // Cargar la lista de actores y películas
   const loadFilmActors = () => {
-    axios.get('http://127.0.0.1:8000/api/film-actors') // Cambia la URL según tu API
+    axios.get(url+'/film-actors') // Cambia la URL según tu API
       .then(response => {
         setFilmActors(response.data.film_actors);
       })
       .catch(error => console.error('Error loading film actors:', error));
 
     // Cargar actores disponibles
-    axios.get('http://127.0.0.1:8000/api/actors')
+    axios.get(url+'/actors')
       .then(response => {
         setActors(response.data.actors);
       })
       .catch(error => console.error('Error loading actors:', error));
 
     // Cargar películas disponibles
-    axios.get('http://127.0.0.1:8000/api/films')
+    axios.get(url+'/films')
       .then(response => {
         setFilms(response.data.films);
       })
@@ -39,7 +39,7 @@ export default function FilmActor() {
   };
 
   const deleteFilmActor = (actorId, filmId) => {
-    axios.post(`http://127.0.0.1:8000/api/film-actor/delete?actor_id=${actorId}&film_id=${filmId}`)
+    axios.post(`url+'/film-actor/delete?actor_id=${actorId}&film_id=${filmId}`)
       .then(() => {
         loadFilmActors();
       })
@@ -48,7 +48,7 @@ export default function FilmActor() {
 
   const saveOrEditFilmActor = () => {
     const url = filmActor.actor_id && filmActor.film_id ? 'edit' : 'create';
-    axios.post(`http://127.0.0.1:8000/api/film-actor/${url}`, filmActor)
+    axios.post(`url+'/film-actor/${url}`, filmActor)
       .then(() => {
         loadFilmActors();
       })

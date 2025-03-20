@@ -3,28 +3,28 @@ import React, { useEffect, useState } from 'react'
 import url from '../constants/constants';
 
 
-export default function Language() {
+export default function Store() {
 
   useEffect(()=>{
 
-    load_languages();
+    load_store();
 
   },[])
 
-  const [languages,set_languages] = useState([
-    {language_id: 1 , name: 'Spanish'},
-    {language_id: 1 , name: 'Spanish'},
-    {language_id: 1 , name: 'Spanish'}
+  const [store,set_store] = useState([
+    {store_id: 1 , manager_staff_id : 1 , staff_fullname: 'staff fullname', address_id: 10 , address: 'Av xochimilco'},
+    {store_id: 1 , manager_staff_id : 1 , staff_fullname: 'staff fullname', address_id: 10 , address: 'Av xochimilco'},
+    {store_id: 1 , manager_staff_id : 1 , staff_fullname: 'staff fullname', address_id: 10 , address: 'Av xochimilco'}
 ])
 
 
-const load_languages = () => {
+const load_store = () => {
 
-  axios.get(url+'/languages')
+  axios.get(url+'/store')
   .then(function (response) {
    console.log('Carga exitoso')
    console.log(response);
-   set_languages(response.data.languages)
+   set_store(response.data.store)
   
   }).catch(function( error) {
    console.log('Something was wrong')
@@ -47,7 +47,7 @@ const load_languages = () => {
           {/* /.card */}
           <div className="card card-info">
             <div className="card-header">
-              <h3 className="card-title">Languages</h3>
+              <h3 className="card-title">Store</h3>
               <div className="card-tools">
                 <button type="button" className="btn btn-tool" data-card-widget="collapse" title="Collapse">
                   <i className="fas fa-minus" />
@@ -58,17 +58,23 @@ const load_languages = () => {
               <table className="table">
                 <thead>
                   <tr>
-                    <th>Language ID</th>
-                    <th>name</th>
+                    <th>Store ID</th>
+                    <th>Manager Staff ID</th>
+                    <th>Staff fullname</th>
+                    <th>Address ID</th>
+                    <th>Address</th>
                     <th />
                   </tr>
                 </thead>
                 <tbody>
                  
-                {languages.map(language =>{
+                {store.map(stor =>{
                  return( <tr>
-                    <td>{language.language_id}</td>
-                    <td>{language.name}</td>
+                    <td>{stor.store_id}</td>
+                    <td>{stor.manager_staff_id}</td>
+                    <td>{stor.staff_fullname}</td>
+                    <td>{stor.address_id}</td>
+                    <td>{stor.address}</td>
 
                   </tr>
                  )
