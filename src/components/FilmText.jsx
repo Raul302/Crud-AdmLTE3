@@ -15,7 +15,7 @@ export default function FilmText() {
   });
 
   const loadFilms = () => {
-    axios.get('http://127.0.0.1:8000/api/film-text') // Cambia la URL según tu API
+    axios.get(url+'/film-text') // Cambia la URL según tu API
       .then(response => {
         setFilms(response.data.film_text);
       })
@@ -23,7 +23,7 @@ export default function FilmText() {
   };
 
   const deleteFilm = (id) => {
-    axios.post(`http://127.0.0.1:8000/api/film-text/delete?id=${id}`)
+    axios.post(`url+'/film-text/delete?id=${id}`)
       .then(() => {
         loadFilms();
       })
@@ -32,7 +32,7 @@ export default function FilmText() {
 
   const saveOrEditFilm = () => {
     const url = film.film_id ? 'edit' : 'create';
-    axios.post(`http://127.0.0.1:8000/api/film-text/${url}`, film)
+    axios.post(`url+'/film-text/${url}`, film)
       .then(() => {
         loadFilms();
       })

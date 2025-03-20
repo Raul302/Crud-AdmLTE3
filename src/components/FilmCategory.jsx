@@ -17,21 +17,21 @@ export default function FilmCategory() {
 
   // Cargar la lista de categorías y films
   const loadFilmCategories = () => {
-    axios.get('http://127.0.0.1:8000/api/film-categories') // Cambia la URL según tu API
+    axios.get(url+'/film-categories') // Cambia la URL según tu API
       .then(response => {
         setFilmCategories(response.data.film_categories);
       })
       .catch(error => console.error('Error loading film categories:', error));
 
     // Cargar films disponibles
-    axios.get('http://127.0.0.1:8000/api/films')
+    axios.get(url+'/films')
       .then(response => {
         setFilms(response.data.films);
       })
       .catch(error => console.error('Error loading films:', error));
 
     // Cargar categorías disponibles
-    axios.get('http://127.0.0.1:8000/api/categories')
+    axios.get(url+'/categories')
       .then(response => {
         setCategories(response.data.categories);
       })
@@ -39,7 +39,7 @@ export default function FilmCategory() {
   };
 
   const deleteFilmCategory = (filmId, categoryId) => {
-    axios.post(`http://127.0.0.1:8000/api/film-category/delete?film_id=${filmId}&category_id=${categoryId}`)
+    axios.post(`url+'/film-category/delete?film_id=${filmId}&category_id=${categoryId}`)
       .then(() => {
         loadFilmCategories();
       })
@@ -48,7 +48,7 @@ export default function FilmCategory() {
 
   const saveOrEditFilmCategory = () => {
     const url = filmCategory.film_id && filmCategory.category_id ? 'edit' : 'create';
-    axios.post(`http://127.0.0.1:8000/api/film-category/${url}`, filmCategory)
+    axios.post(`url+'/film-category/${url}`, filmCategory)
       .then(() => {
         loadFilmCategories();
       })

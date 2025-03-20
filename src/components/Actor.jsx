@@ -84,7 +84,7 @@ export default function Actor() {
   const save_or_edit_actor = () => {
     const url = actor.actor_id == 0 ? 'create' : 'edit'
     const obj_actor = {
-      id: actor.actor_id != 0 ? actor.actor_id : null,
+      actor_id: actor.actor_id != 0 ? actor.actor_id : null,
       first_name: actor.first_name,
       last_name: actor.last_name
     }
@@ -132,7 +132,7 @@ export default function Actor() {
   }
 
   return (
-    <section style={{ marginLeft: '20%' }} class="content">
+    <section style={{ marginLeft: '20%',marginTop:'3%' }} class="content">
       <div class="row">
       <div  style={{display:'flex',textAlign:'right'}}class="col-md-12 mb-5">
       <button type="button" onClick={(e) => open_form()} className="btn btn-primary">Create</button>
