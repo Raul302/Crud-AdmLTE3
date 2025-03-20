@@ -17,7 +17,7 @@ export default function Rental() {
   });
 
   const loadRentals = () => {
-    axios.get('http://127.0.0.1:8000/api/rental')
+    axios.get(url+'/rental')
       .then(response => {
         console.log('Carga exitosa');
         setRentals(response.data.rentals);
@@ -26,7 +26,7 @@ export default function Rental() {
   };
 
   const deleteRental = (id) => {
-    axios.post(`http://127.0.0.1:8000/api/rental/delete?id=${id}`)
+    axios.post(`url+'/rental/delete?id=${id}`)
       .then(() => {
         console.log('Eliminación exitosa');
         loadRentals();
@@ -45,7 +45,7 @@ export default function Rental() {
       staff_id: rental.staff_id
     };
 
-    axios.post(`http://127.0.0.1:8000/api/rental/${url}`, objRental)
+    axios.post(`url+'/rental/${url}`, objRental)
       .then(() => {
         console.log('Guardado exitoso');
         loadRentals();
