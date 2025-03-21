@@ -81,7 +81,7 @@ export default function Address() {
   const loadCities = () => {
 
     toast.info('Loading data!', { autoClose: 1000 })
-    axios.get(url + '/cities')
+    axios.get(url + '/city')
       .then(function (response) {
         console.log('Carga exitoso')
         console.log(response);
