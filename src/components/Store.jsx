@@ -20,11 +20,11 @@ export default function Store() {
 
 const load_store = () => {
 
-  axios.get(url+'/store')
+  axios.get(url+'/stores')
   .then(function (response) {
    console.log('Carga exitoso')
    console.log(response);
-   set_store(response.data.store)
+   set_store(response.data.stores)
   
   }).catch(function( error) {
    console.log('Something was wrong')
