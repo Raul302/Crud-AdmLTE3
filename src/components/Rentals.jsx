@@ -3,28 +3,28 @@ import React, { useEffect, useState } from 'react'
 import url from '../constants/constants';
 
 
-export default function Language() {
+export default function Rentals() {
 
   useEffect(()=>{
 
-    load_languages();
+    load_rentals();
 
   },[])
 
-  const [languages,set_languages] = useState([
-    {language_id: 1 , name: 'Spanish'},
-    {language_id: 1 , name: 'Spanish'},
-    {language_id: 1 , name: 'Spanish'}
+  const [rentals,set_rentals] = useState([
+    {rental_id :20 , rental_date : '2020-04-03' , inventory_id : 10 , customer_id : 30 , customer_fullname : 'customer_fullname' , return_date : '2024-10-08' , staff_id : 40 , staff_fullname: 'Staff fullname' },
+    {rental_id :20 , rental_date : '2020-04-03' , inventory_id : 10 , customer_id : 30 , customer_fullname : 'customer_fullname' , return_date : '2024-10-08' , staff_id : 40 , staff_fullname: 'Staff fullname' },
+    {rental_id :20 , rental_date : '2020-04-03' , inventory_id : 10 , customer_id : 30 , customer_fullname : 'customer_fullname' , return_date : '2024-10-08' , staff_id : 40 , staff_fullname: 'Staff fullname' },
 ])
 
 
-const load_languages = () => {
+const load_rentals = () => {
 
-  axios.get(url+'/languages')
+  axios.get(url+'/rentals')
   .then(function (response) {
    console.log('Carga exitoso')
    console.log(response);
-   set_languages(response.data.languages)
+   set_rentals(response.data.rentals)
   
   }).catch(function( error) {
    console.log('Something was wrong')
@@ -47,7 +47,7 @@ const load_languages = () => {
           {/* /.card */}
           <div className="card card-info">
             <div className="card-header">
-              <h3 className="card-title">Languages</h3>
+              <h3 className="card-title">Rentals</h3>
               <div className="card-tools">
                 <button type="button" className="btn btn-tool" data-card-widget="collapse" title="Collapse">
                   <i className="fas fa-minus" />
@@ -58,17 +58,29 @@ const load_languages = () => {
               <table className="table">
                 <thead>
                   <tr>
-                    <th>Language ID</th>
-                    <th>name</th>
+                    <th>Rental ID</th>
+                    <th>Rental Date</th>
+                    <th>Inventory ID</th>
+                    <th>Customer ID</th>
+                    <th>Customer Fullname</th>
+                    <th>Return date</th>
+                    <th>Staff ID</th>
+                    <th>Staff fullname</th>
                     <th />
                   </tr>
                 </thead>
                 <tbody>
                  
-                {languages.map(language =>{
+                {rentals.map(rental =>{
                  return( <tr>
-                    <td>{language.language_id}</td>
-                    <td>{language.name}</td>
+                    <td>{rental.rental_id}</td>
+                    <td>{rental.rental_date}</td>
+                    <td>{rental.inventory_id}</td>
+                    <td>{rental.customer_id}</td>
+                    <td>{rental.customer_fullname}</td>
+                    <td>{rental.return_date}</td>
+                    <td>{rental.staff_id}</td>
+                    <td>{rental.staff_fullname}</td>
 
                   </tr>
                  )

@@ -17,7 +17,7 @@ export default function Payment() {
   });
 
   const loadPayments = () => {
-    axios.get('http://127.0.0.1:8000/api/payment')
+    axios.get(url+'/payment')
       .then(response => {
         console.log('Pagos cargados');
         setPayments(response.data.payments);
@@ -26,7 +26,7 @@ export default function Payment() {
   };
 
   const deletePayment = (id) => {
-    axios.post(`http://127.0.0.1:8000/api/payment/delete?id=${id}`)
+    axios.post(`url+'/payment/delete?id=${id}`)
       .then(() => {
         console.log('Pago eliminado');
         loadPayments();
@@ -45,7 +45,7 @@ export default function Payment() {
       payment_date: payment.payment_date
     };
 
-    axios.post(`http://127.0.0.1:8000/api/payment/${url}`, objPayment)
+    axios.post(`url+'/payment/${url}`, objPayment)
       .then(() => {
         console.log('Pago guardado');
         loadPayments();
