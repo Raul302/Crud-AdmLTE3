@@ -20,11 +20,11 @@ export default function Inventory() {
 
 const load_inventory = () => {
 
-  axios.get(url+'/inventory')
+  axios.get(url+'/inventories')
   .then(function (response) {
    console.log('Carga exitoso')
    console.log(response);
-   set_inventory(response.data.inventory)
+   set_inventory(response.data.inventories)
   
   }).catch(function( error) {
    console.log('Something was wrong')
