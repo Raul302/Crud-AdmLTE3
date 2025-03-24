@@ -101,7 +101,11 @@ export default function Address() {
       .then(function (response) {
         console.log('Carga exitoso')
         console.log(response);
+<<<<<<< HEAD
         set_address(response.data.addresses)
+=======
+        set_address(response.data.address)
+>>>>>>> 9ef3dd89c05bb0a00d16bb9fd20fee00c6e5fbf0
 
       }).catch(function (error) {
         console.log('Something was wrong')
