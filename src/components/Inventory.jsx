@@ -24,7 +24,11 @@ export default function Inventory() {
 
 const load_inventory = ( page ) => {
 
+//<<<<<<< front_end
   axios.get(url+'/inventories/'+page)
+//=======
+  //axios.get(url+'/inventories')
+//>>>>>>> main
   .then(function (response) {
    console.log('Carga exitoso')
    console.log(response);

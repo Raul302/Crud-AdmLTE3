@@ -25,11 +25,15 @@ export default function Store() {
 
 const load_store = ( page = 0) => {
 
+//<<<<<<< front_end
   axios.get(url+'/stores/'+page)
+//=======
+  //axios.get(url+'/stores')
+//>>>>>>> main
   .then(function (response) {
    console.log('Carga exitoso')
    console.log(response);
-   set_store(response.data.store)
+   set_store(response.data.stores)
   
   }).catch(function( error) {
    console.log('Something was wrong')

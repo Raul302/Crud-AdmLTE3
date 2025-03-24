@@ -26,7 +26,11 @@ export default function Category() {
 
   const loadCategories = ( page = 0) => {
 
+//<<<<<<< front_end
     axios.get(url+'/categories/'+page)
+//=======
+  //  axios.get(url+'/categories')
+//>>>>>>> main
     .then(function (response) {
      console.log('Carga exitoso')
      console.log(response);
