@@ -33,7 +33,7 @@ const load_store = ( page = 0) => {
   .then(function (response) {
    console.log('Carga exitoso')
    console.log(response);
-   set_store(response.data.stores)
+   set_store(response.data.store)
   
   }).catch(function( error) {
    console.log('Something was wrong')
