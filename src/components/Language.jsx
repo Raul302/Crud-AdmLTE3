@@ -1,24 +1,29 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import url from '../constants/constants';
+import { Link } from 'react-router-dom';
 
 
 export default function Language() {
 
+  const [ page , set_page ] = useState(0)
+
   useEffect(()=>{
 
-    load_languages();
+    load_languages( page );
 
-  },[])
+  },[ page ])
 
   const [languages,set_languages] = useState([
-    {language_id: 1 , name: 'Spanish'},
-    {language_id: 1 , name: 'Spanish'},
-    {language_id: 1 , name: 'Spanish'}
+
+    // {language_id: 1 , name: 'Spanish'},
+    // {language_id: 1 , name: 'Spanish'},
+    // {language_id: 1 , name: 'Spanish'}
+
 ])
 
 
-const load_languages = () => {
+const load_languages = ( page = 0) => {
 
   axios.get(url+'/languages')
   .then(function (response) {
@@ -82,12 +87,13 @@ const load_languages = () => {
             </div>
             {/* /.card-body */}
             <div className="card-footer clearfix">
-              <ul className="pagination pagination-sm m-0 float-right">
-                <li className="page-item"><a className="page-link" href="#">«</a></li>
-                <li className="page-item"><a className="page-link" href="#">1</a></li>
-                <li className="page-item"><a className="page-link" href="#">2</a></li>
-                <li className="page-item"><a className="page-link" href="#">3</a></li>
-                <li className="page-item"><a className="page-link" href="#">»</a></li>
+            <ul className="pagination pagination-sm m-0 float-right">
+                { page != 0 &&
+                <li className="page-item"><Link onClick={(e) => set_page(page-1) } className="page-link" >«</Link></li>
+                }
+                { languages.length >= 10 &&
+                <li className="page-item"><Link onClick={(e) => set_page(page+1) } className="page-link" >»</Link></li>
+                }
               </ul>
             </div>
           </div>

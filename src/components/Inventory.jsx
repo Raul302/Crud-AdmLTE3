@@ -1,26 +1,30 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import url from '../constants/constants';
+import { Link } from 'react-router-dom';
 
 
 export default function Inventory() {
 
+  const [ page , set_page] = useState(0);
   useEffect(()=>{
 
-    load_inventory();
+    load_inventory( page );
 
-  },[])
+  },[ page ])
 
   const [inventory,set_inventory] = useState([
-    {inventory_id: 1 , film_id : 1 , title : 'fifty grey shadows', description: 'Description 1 ',store_id:1},
-    {inventory_id: 1 , film_id : 1 , title : 'fifty grey shadows', description: 'description 2 ',store_id:1},
-    {inventory_id: 1 , film_id : 1 , title : 'fifty grey shadows', description: 'description 3',store_id:1}
+
+    // {inventory_id: 1 , film_id : 1 , title : 'fifty grey shadows', description: 'Description 1 ',store_id:1},
+    // {inventory_id: 1 , film_id : 1 , title : 'fifty grey shadows', description: 'description 2 ',store_id:1},
+    // {inventory_id: 1 , film_id : 1 , title : 'fifty grey shadows', description: 'description 3',store_id:1}
+    
 ])
 
 
-const load_inventory = () => {
+const load_inventory = ( page ) => {
 
-  axios.get(url+'/inventories')
+  axios.get(url+'/inventories/'+page)
   .then(function (response) {
    console.log('Carga exitoso')
    console.log(response);
@@ -86,12 +90,13 @@ const load_inventory = () => {
             </div>
             {/* /.card-body */}
             <div className="card-footer clearfix">
-              <ul className="pagination pagination-sm m-0 float-right">
-                <li className="page-item"><a className="page-link" href="#">«</a></li>
-                <li className="page-item"><a className="page-link" href="#">1</a></li>
-                <li className="page-item"><a className="page-link" href="#">2</a></li>
-                <li className="page-item"><a className="page-link" href="#">3</a></li>
-                <li className="page-item"><a className="page-link" href="#">»</a></li>
+            <ul className="pagination pagination-sm m-0 float-right">
+                { page != 0 &&
+                <li className="page-item"><Link onClick={(e) => set_page(page-1) } className="page-link" >«</Link></li>
+                }
+                { inventory.length >= 10 &&
+                <li className="page-item"><Link onClick={(e) => set_page(page+1) } className="page-link" >»</Link></li>
+                }
               </ul>
             </div>
           </div>

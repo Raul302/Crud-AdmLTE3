@@ -1,41 +1,45 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import url from '../constants/constants';
+import url_api from '../constants/constants';
 import { ToastContainer, toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
 
 
 
 export default function Address() {
 
 
+  const [page,set_page] = useState(0)
+
+
   useEffect(() => {
 
     // Checking front end branch
-    loadAddress();
+    loadAddress(page);
     loadCities();
 
-  }, [])
+  }, [page])
 
 
   const [address, set_address] = useState([
 
-    { address_id: 1, address: 'Av xochimilco', address2: 'segunda adress', city_id: 1, district: 'District', postal_code: '27100', phone: '8715661861', last_update: '12/12/12' },
-    { address_id: 2, address: 'Av allende', address2: 'perez Dominguez', city_id: 2, district: 'District', postal_code: '27100', phone: '8715661861', last_update: '12/11/12' },
-    { address_id: 3, address: 'Av hidalgo', address2: 'Solorzano marin', city_id: 3, district: 'District', postal_code: '27100', phone: '8715661861', last_update: '12/08/12' },
+    // { address_id: 1, address: 'Av xochimilco', address2: 'segunda adress', city_id: 1, district: 'District', postal_code: '27100', phone: '8715661861', last_update: '12/12/12' },
+    // { address_id: 2, address: 'Av allende', address2: 'perez Dominguez', city_id: 2, district: 'District', postal_code: '27100', phone: '8715661861', last_update: '12/11/12' },
+    // { address_id: 3, address: 'Av hidalgo', address2: 'Solorzano marin', city_id: 3, district: 'District', postal_code: '27100', phone: '8715661861', last_update: '12/08/12' },
 
-    { address_id: 1, address: 'Av xochimilco', address2: 'segunda adress', city_id: 1, district: 'District', postal_code: '27100', phone: '8715661861', last_update: '12/12/12' },
-    { address_id: 2, address: 'Av allende', address2: 'perez Dominguez', city_id: 2, district: 'District', postal_code: '27100', phone: '8715661861', last_update: '12/11/12' },
-    { address_id: 3, address: 'Av hidalgo', address2: 'Solorzano marin', city_id: 3, district: 'District', postal_code: '27100', phone: '8715661861', last_update: '12/08/12' },
-
-
-    { address_id: 1, address: 'Av xochimilco', address2: 'segunda adress', city_id: 1, district: 'District', postal_code: '27100', phone: '8715661861', last_update: '12/12/12' },
-    { address_id: 2, address: 'Av allende', address2: 'perez Dominguez', city_id: 1, district: 'District', postal_code: '27100', phone: '8715661861', last_update: '12/11/12' },
-    { address_id: 3, address: 'Av hidalgo', address2: 'Solorzano marin', city_id: 1, district: 'District', postal_code: '27100', phone: '8715661861', last_update: '12/08/12' },
+    // { address_id: 1, address: 'Av xochimilco', address2: 'segunda adress', city_id: 1, district: 'District', postal_code: '27100', phone: '8715661861', last_update: '12/12/12' },
+    // { address_id: 2, address: 'Av allende', address2: 'perez Dominguez', city_id: 2, district: 'District', postal_code: '27100', phone: '8715661861', last_update: '12/11/12' },
+    // { address_id: 3, address: 'Av hidalgo', address2: 'Solorzano marin', city_id: 3, district: 'District', postal_code: '27100', phone: '8715661861', last_update: '12/08/12' },
 
 
-    { address_id: 1, address: 'Av xochimilco', address2: 'segunda adress', city_id: 2, district: 'District', postal_code: '27100', phone: '8715661861', last_update: '12/12/12' },
-    { address_id: 2, address: 'Av allende', address2: 'perez Dominguez', city_id: 2, district: 'District', postal_code: '27100', phone: '8715661861', last_update: '12/11/12' },
-    { address_id: 3, address: 'Av hidalgo', address2: 'Solorzano marin', city_id: 2, district: 'District', postal_code: '27100', phone: '8715661861', last_update: '12/08/12' },
+    // { address_id: 1, address: 'Av xochimilco', address2: 'segunda adress', city_id: 1, district: 'District', postal_code: '27100', phone: '8715661861', last_update: '12/12/12' },
+    // { address_id: 2, address: 'Av allende', address2: 'perez Dominguez', city_id: 1, district: 'District', postal_code: '27100', phone: '8715661861', last_update: '12/11/12' },
+    // { address_id: 3, address: 'Av hidalgo', address2: 'Solorzano marin', city_id: 1, district: 'District', postal_code: '27100', phone: '8715661861', last_update: '12/08/12' },
+
+
+    // { address_id: 1, address: 'Av xochimilco', address2: 'segunda adress', city_id: 2, district: 'District', postal_code: '27100', phone: '8715661861', last_update: '12/12/12' },
+    // { address_id: 2, address: 'Av allende', address2: 'perez Dominguez', city_id: 2, district: 'District', postal_code: '27100', phone: '8715661861', last_update: '12/11/12' },
+    // { address_id: 3, address: 'Av hidalgo', address2: 'Solorzano marin', city_id: 2, district: 'District', postal_code: '27100', phone: '8715661861', last_update: '12/08/12' },
 
 
 
@@ -81,7 +85,7 @@ export default function Address() {
   const loadCities = () => {
 
     toast.info('Loading data!', { autoClose: 1000 })
-    axios.get(url + '/city')
+    axios.get(url_api + '/cities/display/select')
       .then(function (response) {
         console.log('Carga exitoso')
         console.log(response);
@@ -95,9 +99,9 @@ export default function Address() {
 
   }
 
-  const loadAddress = () => {
+  const loadAddress = ( page = 0) => {
 
-    axios.get(url + '/addresses')
+    axios.get(url_api + '/addresses/'+page)
       .then(function (response) {
         console.log('Carga exitoso')
         console.log(response);
@@ -113,10 +117,10 @@ export default function Address() {
 
 
   const delete_address = (id) => {
-    axios.post(url + '/adress/delete?id=' + id)
+    axios.post(url_api + '/address/delete?id=' + id)
       .then(function (response) {
         console.log('Eliminacion exitoso')
-        loadAddress()
+        loadAddress( page )
         toast.success('Operation compelte!')
 
 
@@ -129,7 +133,7 @@ export default function Address() {
   const save_or_edit_address = () => {
     const url = single_address.address_id == 0 ? 'create' : 'edit'
     const obj_address = {
-      address_id: single_address.address_id != 0 ? single_address.address_id : null,
+      id: single_address.address_id != 0 ? single_address.address_id : null,
       address: single_address.address,
       address2: single_address.address2,
       district: single_address.district,
@@ -139,10 +143,10 @@ export default function Address() {
     }
 
 
-    axios.post(url + '/actor/' + url, obj_address)
+    axios.post(url_api + '/address/' + url, obj_address)
       .then(function (response) {
         console.log('Guardado exitoso')
-        loadAddress()
+        loadAddress( page )
         toast.success('Operation compelte!')
         close_form()
 
@@ -322,6 +326,7 @@ export default function Address() {
                     <th>Address</th>
                     <th>Address 2</th>
                     <th>City ID</th>
+                    <th>City</th>
                     <th>District</th>
                     <th>Postal code</th>
                     <th>Phone</th>
@@ -341,6 +346,7 @@ export default function Address() {
                       <td>{act.address}</td>
                       <td>{act.address2}</td>
                       <td>{act.city_id}</td>
+                      <td>{act.city}</td>
                       <td>{act.district}</td>
                       <td>{act.postal_code}</td>
                       <td>{act.phone}</td>
@@ -373,11 +379,10 @@ export default function Address() {
 
             <div className="card-footer clearfix">
               <ul className="pagination pagination-sm m-0 float-right">
-                <li className="page-item"><a className="page-link" href="#">«</a></li>
-                <li className="page-item"><a className="page-link" href="#">1</a></li>
-                <li className="page-item"><a className="page-link" href="#">2</a></li>
-                <li className="page-item"><a className="page-link" href="#">3</a></li>
-                <li className="page-item"><a className="page-link" href="#">»</a></li>
+              { page != 0 &&
+                <li className="page-item"><Link onClick={(e) => set_page(page-1) } className="page-link" >«</Link></li>
+                }
+                <li className="page-item"><Link onClick={(e) => set_page(page+1) } className="page-link" >»</Link></li>
               </ul>
             </div>
 

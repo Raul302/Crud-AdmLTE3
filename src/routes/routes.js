@@ -37,56 +37,64 @@ import Store from "../components/Store";
         name : 'Dashboard',
         url : '/',
         component: Dashboard,
-        icon: 'far fa-circle nav-icon"'
+        icon: 'far fa-circle nav-icon"',
+        who_can_look:['admin','supervisor']
     },
 
     {
         name : 'Actor',
         url : '/actor',
         component: Actor,
-        icon:'far fa-circle nav-icon"'
+        icon:'far fa-circle nav-icon"',
+        who_can_look:['admin','supervisor']
     },
 
     {
         name : 'Film',
         url : '/film',
         component: Film,
-        icon:'far fa-circle nav-icon"'
+        icon:'far fa-circle nav-icon"',
+        who_can_look:['admin','supervisor']
     },
 
     {
         name : 'Address',
         url : '/address',
         component: Address,
-        icon:'far fa-circle nav-icon"'
+        icon:'far fa-circle nav-icon"',
+        who_can_look:['admin','supervisor']
     },
 
     {
         name : 'Customer',
         url : '/customer',
         component: Customer,
-        icon:'far fa-circle nav-icon"'
+        icon:'far fa-circle nav-icon"',
+        who_can_look:['admin','supervisor']
     },
 
     {
         name : 'Category',
         url : '/category',
         component: Category,
-        icon:'far fa-circle nav-icon"'
+        icon:'far fa-circle nav-icon"',
+        who_can_look:['admin','supervisor']
     },
 
     {
         name : 'City',
         url : '/city',
         component: City,
-        icon:'far fa-circle nav-icon"'
+        icon:'far fa-circle nav-icon"',
+        who_can_look:['admin','supervisor']
     },
 
     {
         name : 'Film Actor',
         url : '/film_actor',
         component: Film_Actor,
-        icon:'far fa-circle nav-icon"'
+        icon:'far fa-circle nav-icon"',
+        who_can_look:['admin','supervisor']
     },
 
     
@@ -94,56 +102,65 @@ import Store from "../components/Store";
         name : 'Film Category',
         url : '/film_category',
         component: Film_Category,
-        icon:'far fa-circle nav-icon"'
+        icon:'far fa-circle nav-icon"',
+        who_can_look:['admin','supervisor']
     },
 
     {
         name : 'Film Text',
         url : '/film_text',
         component: Film_Text,
-        icon:'far fa-circle nav-icon"'
+        icon:'far fa-circle nav-icon"',
+        who_can_look:['admin','supervisor']
     },
 
     {
         name : 'Inventory',
         url : '/inventory',
         component: Inventory,
-        icon:'far fa-circle nav-icon"'
+        icon:'far fa-circle nav-icon"',
+        who_can_look:['admin','supervisor']
     },
 
     {
         name : 'Languages',
         url : '/languages',
         component: Language,
-        icon:'far fa-circle nav-icon"'
+        icon:'far fa-circle nav-icon"',
+        who_can_look:['admin','supervisor']
     },
 
     {
         name : 'Payments',
         url : '/payments',
         component: Payments,
-        icon:'far fa-circle nav-icon"'
+        icon:'far fa-circle nav-icon"',
+        who_can_look:['admin','supervisor']
     },
 
     {
         name : 'Rental',
         url : '/rentals',
         component: Rentals,
-        icon:'far fa-circle nav-icon"'
+        icon:'far fa-circle nav-icon"',
+        who_can_look:['admin','supervisor']
     },
 
     {
         name : 'Staff',
         url : '/staff',
         component: Staff,
-        icon:'far fa-circle nav-icon"'
+        icon:'far fa-circle nav-icon"',
+        who_can_look:['admin','supervisor']
     },
 
     {
         name : 'Store',
         url : '/stores',
         component: Store,
-        icon:'far fa-circle nav-icon"'
+        icon:'far fa-circle nav-icon"',
+        who_can_look:['admin','supervisor']
+
     },
 
 ];

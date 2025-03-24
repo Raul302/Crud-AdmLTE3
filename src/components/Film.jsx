@@ -1,18 +1,22 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import url from '../constants/constants';
+import url_api from '../constants/constants';
 import { ToastContainer, toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
 
 
 export default function Film() {
 
 
+  const [page,set_page] = useState(0)
+
+
   useEffect(() => {
 
-    loadFilms();
+    loadFilms(page);
     loadLanguages();
 
-  }, [])
+  }, [page])
 
 
   const [languages,set_languages] = useState([
@@ -22,58 +26,58 @@ export default function Film() {
     {language_id : 4 , name : 'Indu'},
   ])
   const [films, set_films] = useState([
-    {
-      film_id: 1, title: 'Luis raul', description: 'perez marin', release_year: '12/12/12', language_id: 1, original_language_id: 2, rental_duration: 3,
-      rental_rate: 4.50, length: 0, replacement_cost: 20.99, rating: 'G', special_features: 'Shalalala', last_update: '12/12/12'
-    },
-    {
-      film_id: 2, title: 'Jose raul', description: 'perez Dominguez', release_year: '12/11/12', language_id: 1, original_language_id: 2, rental_duration: 3,
-      rental_rate: 4.50, length: 0, replacement_cost: 20.99, rating: 'G', special_features: 'Shalalala', last_update: '12/12/12'
-    },
-    {
-      film_id: 3, title: 'Luis Angel', description: 'Solorzano marin', release_year: '12/08/12', language_id: 1, original_language_id: 2, rental_duration: 3,
-      rental_rate: 4.50, length: 0, replacement_cost: 20.99, rating: 'G', special_features: 'Shalalala', last_update: '12/12/12'
-    },
+    // {
+    //   film_id: 1, title: 'Luis raul', description: 'perez marin', release_year: '12/12/12', language_id: 1, original_language_id: 2, rental_duration: 3,
+    //   rental_rate: 4.50, length: 0, replacement_cost: 20.99, rating: 'G', special_features: 'Shalalala', last_update: '12/12/12'
+    // },
+    // {
+    //   film_id: 2, title: 'Jose raul', description: 'perez Dominguez', release_year: '12/11/12', language_id: 1, original_language_id: 2, rental_duration: 3,
+    //   rental_rate: 4.50, length: 0, replacement_cost: 20.99, rating: 'G', special_features: 'Shalalala', last_update: '12/12/12'
+    // },
+    // {
+    //   film_id: 3, title: 'Luis Angel', description: 'Solorzano marin', release_year: '12/08/12', language_id: 1, original_language_id: 2, rental_duration: 3,
+    //   rental_rate: 4.50, length: 0, replacement_cost: 20.99, rating: 'G', special_features: 'Shalalala', last_update: '12/12/12'
+    // },
 
-    {
-      film_id: 1, title: 'Luis raul', description: 'perez marin', release_year: '12/12/12', language_id: 1, original_language_id: 2, rental_duration: 3,
-      rental_rate: 4.50, length: 0, replacement_cost: 20.99, rating: 'G', special_features: 'Shalalala', last_update: '12/12/12'
-    },
-    {
-      film_id: 2, title: 'Jose raul', description: 'perez Dominguez', release_year: '12/11/12', language_id: 1, original_language_id: 2, rental_duration: 3,
-      rental_rate: 4.50, length: 0, replacement_cost: 20.99, rating: 'G', special_features: 'Shalalala', last_update: '12/12/12'
-    },
-    {
-      film_id: 3, title: 'Luis Angel', description: 'Solorzano marin', release_year: '12/08/12', language_id: 1, original_language_id: 2, rental_duration: 3,
-      rental_rate: 4.50, length: 0, replacement_cost: 20.99, rating: 'G', special_features: 'Shalalala', last_update: '12/12/12'
-    },
+    // {
+    //   film_id: 1, title: 'Luis raul', description: 'perez marin', release_year: '12/12/12', language_id: 1, original_language_id: 2, rental_duration: 3,
+    //   rental_rate: 4.50, length: 0, replacement_cost: 20.99, rating: 'G', special_features: 'Shalalala', last_update: '12/12/12'
+    // },
+    // {
+    //   film_id: 2, title: 'Jose raul', description: 'perez Dominguez', release_year: '12/11/12', language_id: 1, original_language_id: 2, rental_duration: 3,
+    //   rental_rate: 4.50, length: 0, replacement_cost: 20.99, rating: 'G', special_features: 'Shalalala', last_update: '12/12/12'
+    // },
+    // {
+    //   film_id: 3, title: 'Luis Angel', description: 'Solorzano marin', release_year: '12/08/12', language_id: 1, original_language_id: 2, rental_duration: 3,
+    //   rental_rate: 4.50, length: 0, replacement_cost: 20.99, rating: 'G', special_features: 'Shalalala', last_update: '12/12/12'
+    // },
 
-    {
-      film_id: 1, title: 'Luis raul', description: 'perez marin', release_year: '12/12/12', language_id: 1, original_language_id: 2, rental_duration: 3,
-      rental_rate: 4.50, length: 0, replacement_cost: 20.99, rating: 'G', special_features: 'Shalalala', last_update: '12/12/12'
-    },
-    {
-      film_id: 2, title: 'Jose raul', description: 'perez Dominguez', release_year: '12/11/12', language_id: 1, original_language_id: 2, rental_duration: 3,
-      rental_rate: 4.50, length: 0, replacement_cost: 20.99, rating: 'G', special_features: 'Shalalala', last_update: '12/12/12'
-    },
-    {
-      film_id: 3, title: 'Luis Angel', description: 'Solorzano marin', release_year: '12/08/12', language_id: 1, original_language_id: 2, rental_duration: 3,
-      rental_rate: 4.50, length: 0, replacement_cost: 20.99, rating: 'G', special_features: 'Shalalala', last_update: '12/12/12'
-    },
+    // {
+    //   film_id: 1, title: 'Luis raul', description: 'perez marin', release_year: '12/12/12', language_id: 1, original_language_id: 2, rental_duration: 3,
+    //   rental_rate: 4.50, length: 0, replacement_cost: 20.99, rating: 'G', special_features: 'Shalalala', last_update: '12/12/12'
+    // },
+    // {
+    //   film_id: 2, title: 'Jose raul', description: 'perez Dominguez', release_year: '12/11/12', language_id: 1, original_language_id: 2, rental_duration: 3,
+    //   rental_rate: 4.50, length: 0, replacement_cost: 20.99, rating: 'G', special_features: 'Shalalala', last_update: '12/12/12'
+    // },
+    // {
+    //   film_id: 3, title: 'Luis Angel', description: 'Solorzano marin', release_year: '12/08/12', language_id: 1, original_language_id: 2, rental_duration: 3,
+    //   rental_rate: 4.50, length: 0, replacement_cost: 20.99, rating: 'G', special_features: 'Shalalala', last_update: '12/12/12'
+    // },
 
 
-    {
-      film_id: 1, title: 'Luis raul', description: 'perez marin', release_year: '12/12/12', language_id: 1, original_language_id: 2, rental_duration: 3,
-      rental_rate: 4.50, length: 0, replacement_cost: 20.99, rating: 'G', special_features: 'Shalalala', last_update: '12/12/12'
-    },
-    {
-      film_id: 2, title: 'Jose raul', description: 'perez Dominguez', release_year: '12/11/12', language_id: 1, original_language_id: 2, rental_duration: 3,
-      rental_rate: 4.50, length: 0, replacement_cost: 20.99, rating: 'G', special_features: 'Shalalala', last_update: '12/12/12'
-    },
-    {
-      film_id: 3, title: 'Luis Angel', description: 'Solorzano marin', release_year: '12/08/12', language_id: 1, original_language_id: 2, rental_duration: 3,
-      rental_rate: 4.50, length: 0, replacement_cost: 20.99, rating: 'G', special_features: 'Shalalala', last_update: '12/12/12'
-    }
+    // {
+    //   film_id: 1, title: 'Luis raul', description: 'perez marin', release_year: '12/12/12', language_id: 1, original_language_id: 2, rental_duration: 3,
+    //   rental_rate: 4.50, length: 0, replacement_cost: 20.99, rating: 'G', special_features: 'Shalalala', last_update: '12/12/12'
+    // },
+    // {
+    //   film_id: 2, title: 'Jose raul', description: 'perez Dominguez', release_year: '12/11/12', language_id: 1, original_language_id: 2, rental_duration: 3,
+    //   rental_rate: 4.50, length: 0, replacement_cost: 20.99, rating: 'G', special_features: 'Shalalala', last_update: '12/12/12'
+    // },
+    // {
+    //   film_id: 3, title: 'Luis Angel', description: 'Solorzano marin', release_year: '12/08/12', language_id: 1, original_language_id: 2, rental_duration: 3,
+    //   rental_rate: 4.50, length: 0, replacement_cost: 20.99, rating: 'G', special_features: 'Shalalala', last_update: '12/12/12'
+    // }
 
   ])
 
@@ -83,6 +87,7 @@ export default function Film() {
     release_year: 0,
     length: 0,
     rating: 0,
+    film_id : 0
   })
 
 
@@ -101,6 +106,7 @@ export default function Film() {
         release_year: 0,
         length: 0,
         rating: 0,
+        film_id:0
       }
     )
   }
@@ -108,7 +114,7 @@ export default function Film() {
   const loadLanguages = () => {
 
     toast.info('Loading data!', { autoClose: 1000 })
-    axios.get(url + '/languages')
+    axios.get(url_api + '/languages/select')
       .then(function (response) {
         console.log('Carga exitoso')
         console.log(response);
@@ -122,10 +128,10 @@ export default function Film() {
 
   }
 
-  const loadFilms = () => {
+  const loadFilms = ( page = 0) => {
 
     toast.info('Loading data!', { autoClose: 1000 })
-    axios.get(url + '/films')
+    axios.get(url_api + '/films/'+page)
       .then(function (response) {
         console.log('Carga exitoso')
         console.log(response);
@@ -141,10 +147,10 @@ export default function Film() {
 
 
   const delete_film = (id) => {
-    axios.post(url + '/film/delete?id=' + id)
+    axios.post(url_api + '/film/delete?id=' + id)
       .then(function (response) {
         console.log('Eliminacion exitoso')
-        loadFilms()
+        loadFilms(page)
         toast.success('Operation compelte!')
 
       }).catch(function (error) {
@@ -161,11 +167,14 @@ export default function Film() {
       release_year: film.release_year,
       length: film.length,
     }
+    console.log('URRLL',obj_film);
+    console.log('URRLL',film);
 
-    axios.post(url + '/film/' + url, obj_film)
+
+    axios.post(url_api + '/film/' + url, obj_film)
       .then(function (response) {
         console.log('Guardado exitoso')
-        loadFilms()
+        loadFilms(page)
         toast.success('Operation compelte!')
         close_form()
 
@@ -359,7 +368,7 @@ export default function Film() {
           </div>
         }
 
-        <div className={editing_or_creating ? "col-xs-12 col-md-12 col-lg-12" : "col-md-11"}>
+        <div className={editing_or_creating ? "col-xs-12 col-md-12 col-lg-12" : "col-md-12"}>
           {/* /.card */}
           <div className="card card-info">
             <div className="card-header">
@@ -427,11 +436,10 @@ export default function Film() {
             {/* /.card-body */}
             <div className="card-footer clearfix">
               <ul className="pagination pagination-sm m-0 float-right">
-                <li className="page-item"><a className="page-link" href="#">«</a></li>
-                <li className="page-item"><a className="page-link" href="#">1</a></li>
-                <li className="page-item"><a className="page-link" href="#">2</a></li>
-                <li className="page-item"><a className="page-link" href="#">3</a></li>
-                <li className="page-item"><a className="page-link" href="#">»</a></li>
+              { page != 0 &&
+                <li className="page-item"><Link onClick={(e) => set_page(page-1) } className="page-link" >«</Link></li>
+                }
+                <li className="page-item"><Link onClick={(e) => set_page(page+1) } className="page-link" >»</Link></li>
               </ul>
             </div>
             {/* /.card-body */}

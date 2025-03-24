@@ -1,30 +1,36 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import url from '../constants/constants';
+import { Link } from 'react-router-dom';
 
 
 export default function Film_Category() {
 
+      const [page,set_page] = useState(0)
+  
+
   useEffect(()=>{
 
-    load_film_category();
+    load_film_category( page );
 
-  },[])
+  },[ page ])
 
   const [film_categories,set_film_categories] = useState([
-    {film_id : 1 , title_film : 'fifty grey shadows',category_id: 1 , name: 'drama'},
-    {film_id : 1 , title_film : 'fifty grey shadows',category_id: 1 , name: 'drama'},
-    {film_id : 1 , title_film : 'fifty grey shadows',category_id: 1 , name: 'drama'}
+
+    // {film_id : 1 , title_film : 'fifty grey shadows',category_id: 1 , name: 'drama'},
+    // {film_id : 1 , title_film : 'fifty grey shadows',category_id: 1 , name: 'drama'},
+    // {film_id : 1 , title_film : 'fifty grey shadows',category_id: 1 , name: 'drama'}
+
 ])
 
 
-const load_film_category = () => {
+const load_film_category = ( page ) => {
 
-  axios.get(url+'/film_categories')
+  axios.get(url+'/film_category/'+page)
   .then(function (response) {
    console.log('Carga exitoso')
    console.log(response);
-   set_film_categories(response.data.film_categories)
+   set_film_categories(response.data.film_category)
   
   }).catch(function( error) {
    console.log('Something was wrong')
@@ -61,7 +67,7 @@ const load_film_category = () => {
                     <th>Film ID</th>
                     <th>Title film</th>
                     <th>Category ID</th>
-                    <th>Name</th>
+                    <th>Category Name</th>
                     <th />
                   </tr>
                 </thead>
@@ -70,7 +76,7 @@ const load_film_category = () => {
                 {film_categories.map(film =>{
                  return( <tr>
                     <td>{film.film_id}</td>
-                    <td>{film.title_film}</td>
+                    <td>{film.title}</td>
                     <td>{film.category_id}</td>
                     <td>{film.name}</td>
 
@@ -86,12 +92,13 @@ const load_film_category = () => {
             </div>
             {/* /.card-body */}
             <div className="card-footer clearfix">
-              <ul className="pagination pagination-sm m-0 float-right">
-                <li className="page-item"><a className="page-link" href="#">«</a></li>
-                <li className="page-item"><a className="page-link" href="#">1</a></li>
-                <li className="page-item"><a className="page-link" href="#">2</a></li>
-                <li className="page-item"><a className="page-link" href="#">3</a></li>
-                <li className="page-item"><a className="page-link" href="#">»</a></li>
+            <ul className="pagination pagination-sm m-0 float-right">
+                { page != 0 &&
+                <li className="page-item"><Link onClick={(e) => set_page(page-1) } className="page-link" >«</Link></li>
+                }
+                { film_categories.length >= 10 &&
+                <li className="page-item"><Link onClick={(e) => set_page(page+1) } className="page-link" >»</Link></li>
+                }
               </ul>
             </div>
           </div>
