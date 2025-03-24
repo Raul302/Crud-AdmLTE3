@@ -1,26 +1,31 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import url from '../constants/constants';
+import { Link } from 'react-router-dom';
 
 
 export default function Rentals() {
 
+  const [ page , set_page ] = useState(0)
+
   useEffect(()=>{
 
-    load_rentals();
+    load_rentals( page );
 
-  },[])
+  },[ page ])
 
   const [rentals,set_rentals] = useState([
-    {rental_id :20 , rental_date : '2020-04-03' , inventory_id : 10 , customer_id : 30 , customer_fullname : 'customer_fullname' , return_date : '2024-10-08' , staff_id : 40 , staff_fullname: 'Staff fullname' },
-    {rental_id :20 , rental_date : '2020-04-03' , inventory_id : 10 , customer_id : 30 , customer_fullname : 'customer_fullname' , return_date : '2024-10-08' , staff_id : 40 , staff_fullname: 'Staff fullname' },
-    {rental_id :20 , rental_date : '2020-04-03' , inventory_id : 10 , customer_id : 30 , customer_fullname : 'customer_fullname' , return_date : '2024-10-08' , staff_id : 40 , staff_fullname: 'Staff fullname' },
-])
+  
+    // {rental_id :20 , rental_date : '2020-04-03' , inventory_id : 10 , customer_id : 30 , customer_fullname : 'customer_fullname' , return_date : '2024-10-08' , staff_id : 40 , staff_fullname: 'Staff fullname' },
+    // {rental_id :20 , rental_date : '2020-04-03' , inventory_id : 10 , customer_id : 30 , customer_fullname : 'customer_fullname' , return_date : '2024-10-08' , staff_id : 40 , staff_fullname: 'Staff fullname' },
+    // {rental_id :20 , rental_date : '2020-04-03' , inventory_id : 10 , customer_id : 30 , customer_fullname : 'customer_fullname' , return_date : '2024-10-08' , staff_id : 40 , staff_fullname: 'Staff fullname' },
+
+  ])
 
 
-const load_rentals = () => {
+const load_rentals = ( page ) => {
 
-  axios.get(url+'/rentals')
+  axios.get(url+'/rentals/'+page)
   .then(function (response) {
    console.log('Carga exitoso')
    console.log(response);
@@ -63,7 +68,7 @@ const load_rentals = () => {
                     <th>Inventory ID</th>
                     <th>Customer ID</th>
                     <th>Customer Fullname</th>
-                    <th>Return date</th>
+                    <th>Rental return date</th>
                     <th>Staff ID</th>
                     <th>Staff fullname</th>
                     <th />
@@ -77,10 +82,10 @@ const load_rentals = () => {
                     <td>{rental.rental_date}</td>
                     <td>{rental.inventory_id}</td>
                     <td>{rental.customer_id}</td>
-                    <td>{rental.customer_fullname}</td>
+                    <td>{rental.fullname_customer}</td>
                     <td>{rental.return_date}</td>
                     <td>{rental.staff_id}</td>
-                    <td>{rental.staff_fullname}</td>
+                    <td>{rental.fullname_staff}</td>
 
                   </tr>
                  )
@@ -94,12 +99,13 @@ const load_rentals = () => {
             </div>
             {/* /.card-body */}
             <div className="card-footer clearfix">
-              <ul className="pagination pagination-sm m-0 float-right">
-                <li className="page-item"><a className="page-link" href="#">«</a></li>
-                <li className="page-item"><a className="page-link" href="#">1</a></li>
-                <li className="page-item"><a className="page-link" href="#">2</a></li>
-                <li className="page-item"><a className="page-link" href="#">3</a></li>
-                <li className="page-item"><a className="page-link" href="#">»</a></li>
+            <ul className="pagination pagination-sm m-0 float-right">
+                { page != 0 &&
+                <li className="page-item"><Link onClick={(e) => set_page(page-1) } className="page-link" >«</Link></li>
+                }
+                { rentals.length >= 10 &&
+                <li className="page-item"><Link onClick={(e) => set_page(page+1) } className="page-link" >»</Link></li>
+                }
               </ul>
             </div>
           </div>

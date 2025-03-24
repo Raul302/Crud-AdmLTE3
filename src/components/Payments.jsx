@@ -1,26 +1,28 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import url from '../constants/constants';
+import { Link } from 'react-router-dom';
 
 
 export default function Payments() {
 
+  const [ page , set_page] = useState( 0 )
   useEffect(()=>{
 
-    load_payments();
+    load_payments( page );
 
-  },[])
+  },[ page ])
 
   const [payments,set_payments] = useState([
-    {payment_id: 1 ,customer_id : 20 , customer_fullname : 'customer_fullname', staff_id: 30 , staff_fullname: ' staff_fullname' , rental_id : 40, rental_date: '2005-12-04',amount: 15.88 , payment_date : '2010-10-10'},
-    {payment_id: 1 ,customer_id : 20 , customer_fullname : 'customer_fullname', staff_id: 30 , staff_fullname: ' staff_fullname' , rental_id : 40, rental_date: '2005-12-04',amount: 15.88 , payment_date : '2010-10-10'},
-    {payment_id: 1 ,customer_id : 20 , customer_fullname : 'customer_fullname', staff_id: 30 , staff_fullname: ' staff_fullname' , rental_id : 40, rental_date: '2005-12-04',amount: 15.88 , payment_date : '2010-10-10'}
+    // {payment_id: 1 ,customer_id : 20 , customer_fullname : 'customer_fullname', staff_id: 30 , staff_fullname: ' staff_fullname' , rental_id : 40, rental_date: '2005-12-04',amount: 15.88 , payment_date : '2010-10-10'},
+    // {payment_id: 1 ,customer_id : 20 , customer_fullname : 'customer_fullname', staff_id: 30 , staff_fullname: ' staff_fullname' , rental_id : 40, rental_date: '2005-12-04',amount: 15.88 , payment_date : '2010-10-10'},
+    // {payment_id: 1 ,customer_id : 20 , customer_fullname : 'customer_fullname', staff_id: 30 , staff_fullname: ' staff_fullname' , rental_id : 40, rental_date: '2005-12-04',amount: 15.88 , payment_date : '2010-10-10'}
 ])
 
 
-const load_payments = () => {
+const load_payments = ( page ) => {
 
-  axios.get(url+'/payments')
+  axios.get(url+'/payments/'+page)
   .then(function (response) {
    console.log('Carga exitoso')
    console.log(response);
@@ -76,9 +78,9 @@ const load_payments = () => {
                  return( <tr>
                     <td>{payment.payment_id}</td>
                     <td>{payment.customer_id}</td>
-                    <td>{payment.customer_fullname}</td>
+                    <td>{payment.fullname_customer}</td>
                     <td>{payment.staff_id}</td>
-                    <td>{payment.staff_fullname}</td>
+                    <td>{payment.fullname_staff}</td>
                     <td>{payment.rental_id}</td>
                     <td>{payment.rental_date}</td>
                     <td>{payment.amount}</td>
@@ -96,12 +98,13 @@ const load_payments = () => {
             </div>
             {/* /.card-body */}
             <div className="card-footer clearfix">
-              <ul className="pagination pagination-sm m-0 float-right">
-                <li className="page-item"><a className="page-link" href="#">«</a></li>
-                <li className="page-item"><a className="page-link" href="#">1</a></li>
-                <li className="page-item"><a className="page-link" href="#">2</a></li>
-                <li className="page-item"><a className="page-link" href="#">3</a></li>
-                <li className="page-item"><a className="page-link" href="#">»</a></li>
+            <ul className="pagination pagination-sm m-0 float-right">
+                { page != 0 &&
+                <li className="page-item"><Link onClick={(e) => set_page(page-1) } className="page-link" >«</Link></li>
+                }
+                { payments.length >= 10 &&
+                <li className="page-item"><Link onClick={(e) => set_page(page+1) } className="page-link" >»</Link></li>
+                }
               </ul>
             </div>
           </div>

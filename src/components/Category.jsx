@@ -1,20 +1,22 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import url from '../constants/constants';
+import { Link } from 'react-router-dom';
 
 export default function Category() {
 
+  const [page,set_page] = useState(0)
 
   useEffect(() => {
 
-    loadCategories();
+    loadCategories(page);
 
-  }, [])
+  }, [ page ])
 
   const [categories, set_categories] = useState([
-    { category_id: 1, name: 'Categoria 1', last_update: '12/12/12' },
-    { category_id: 2, name: 'Categoria 2 ', last_update: '12/11/12' },
-    { category_id: 3, name: 'Categoria 3', last_update: '12/08/12' }
+    // { category_id: 1, name: 'Categoria 1', last_update: '12/12/12' },
+    // { category_id: 2, name: 'Categoria 2 ', last_update: '12/11/12' },
+    // { category_id: 3, name: 'Categoria 3', last_update: '12/08/12' }
   ])
 
   const [category, set_category] = useState({
@@ -22,9 +24,13 @@ export default function Category() {
     category_id: 0
   })
 
-  const loadCategories = () => {
+  const loadCategories = ( page = 0) => {
 
-    axios.get(url+'/categories')
+//<<<<<<< front_end
+    axios.get(url+'/categories/'+page)
+//=======
+  //  axios.get(url+'/categories')
+//>>>>>>> main
     .then(function (response) {
      console.log('Carga exitoso')
      console.log(response);
@@ -84,7 +90,18 @@ export default function Category() {
               </table>
             </div>
             {/* /.card-body */}
+            
           </div>
+          <div className="card-footer clearfix">
+              <ul className="pagination pagination-sm m-0 float-right">
+                { page != 0 &&
+                <li className="page-item"><Link onClick={(e) => set_page(page-1) } className="page-link" >«</Link></li>
+                }
+                { categories.length >= 10 &&
+                <li className="page-item"><Link onClick={(e) => set_page(page+1) } className="page-link" >»</Link></li>
+                }
+              </ul>
+            </div>
           {/* /.card */}
 
 

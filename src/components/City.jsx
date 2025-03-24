@@ -1,26 +1,30 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import url from '../constants/constants';
+import { Link } from 'react-router-dom';
 
 
 export default function City() {
 
+    const [page,set_page] = useState(0)
+  
+    
   useEffect(()=>{
 
-    loadCities();
+    loadCities( page );
 
-  },[])
+  },[ page ])
 
   const [cities,set_cities] = useState([
-    {city_id:1 , city: 'Luis raul' , country_id: 1 , country : 'Nigeria',last_update:'12/12/12'},
-    {city_id:2 , city: 'Jose raul' , country_id: 1 , country : 'China',last_update:'12/11/12'},
-    {city_id:3 , city: 'Luis Angel' , country_id: 1 , country : 'Wakanda',last_update:'12/08/12'}
+    // {city_id:1 , city: 'Luis raul' , country_id: 1 , country : 'Nigeria',last_update:'12/12/12'},
+    // {city_id:2 , city: 'Jose raul' , country_id: 1 , country : 'China',last_update:'12/11/12'},
+    // {city_id:3 , city: 'Luis Angel' , country_id: 1 , country : 'Wakanda',last_update:'12/08/12'}
 ])
 
 
-const loadCities = () => {
+const loadCities = ( page = 0) => {
 
-  axios.get(url+'/cities')
+  axios.get(url+'/cities/'+page)
   .then(function (response) {
    console.log('Carga exitoso')
    console.log(response);
@@ -89,6 +93,16 @@ const loadCities = () => {
             {/* /.card-body */}
           </div>
           {/* /.card */}
+          <div className="card-footer clearfix">
+              <ul className="pagination pagination-sm m-0 float-right">
+                { page != 0 &&
+                <li className="page-item"><Link onClick={(e) => set_page(page-1) } className="page-link" >«</Link></li>
+                }
+                { cities.length >= 10 &&
+                <li className="page-item"><Link onClick={(e) => set_page(page+1) } className="page-link" >»</Link></li>
+                }
+              </ul>
+            </div>
 
 
 

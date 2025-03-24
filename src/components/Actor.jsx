@@ -1,34 +1,40 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import url from '../constants/constants';
+import url_api from '../constants/constants';
 import { ToastContainer, toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
 
 export default function Actor() {
+  
 
+  const [page,set_page] = useState(0)
+  
+  
   useEffect(() => {
 
-    loadActors();
+    loadActors(page);
 
-  }, [])
+  }, [page])
+
 
   const [actors, set_actors] = useState([
-    { actor_id: 1, first_name: 'Luis raul', last_name: 'perez marin', last_update: '12/12/12' },
-    { actor_id: 2, first_name: 'Jose raul', last_name: 'perez Dominguez', last_update: '12/11/12' },
-    { actor_id: 3, first_name: 'Luis Angel', last_name: 'Solorzano marin', last_update: '12/08/12' },
+    // { actor_id: 1, first_name: 'Luis raul', last_name: 'perez marin', last_update: '12/12/12' },
+    // { actor_id: 2, first_name: 'Jose raul', last_name: 'perez Dominguez', last_update: '12/11/12' },
+    // { actor_id: 3, first_name: 'Luis Angel', last_name: 'Solorzano marin', last_update: '12/08/12' },
     
-    { actor_id: 1, first_name: 'Luis raul', last_name: 'perez marin', last_update: '12/12/12' },
-    { actor_id: 2, first_name: 'Jose raul', last_name: 'perez Dominguez', last_update: '12/11/12' },
-    { actor_id: 3, first_name: 'Luis Angel', last_name: 'Solorzano marin', last_update: '12/08/12' },
+    // { actor_id: 1, first_name: 'Luis raul', last_name: 'perez marin', last_update: '12/12/12' },
+    // { actor_id: 2, first_name: 'Jose raul', last_name: 'perez Dominguez', last_update: '12/11/12' },
+    // { actor_id: 3, first_name: 'Luis Angel', last_name: 'Solorzano marin', last_update: '12/08/12' },
 
-    { actor_id: 1, first_name: 'Luis raul', last_name: 'perez marin', last_update: '12/12/12' },
-    { actor_id: 2, first_name: 'Jose raul', last_name: 'perez Dominguez', last_update: '12/11/12' },
-    { actor_id: 3, first_name: 'Luis Angel', last_name: 'Solorzano marin', last_update: '12/08/12' },
+    // { actor_id: 1, first_name: 'Luis raul', last_name: 'perez marin', last_update: '12/12/12' },
+    // { actor_id: 2, first_name: 'Jose raul', last_name: 'perez Dominguez', last_update: '12/11/12' },
+    // { actor_id: 3, first_name: 'Luis Angel', last_name: 'Solorzano marin', last_update: '12/08/12' },
 
-    { actor_id: 1, first_name: 'Luis raul', last_name: 'perez marin', last_update: '12/12/12' },
-    { actor_id: 2, first_name: 'Jose raul', last_name: 'perez Dominguez', last_update: '12/11/12' },
-    { actor_id: 3, first_name: 'Luis Angel', last_name: 'Solorzano marin', last_update: '12/08/12' }
-
+    // { actor_id: 1, first_name: 'Luis raul', last_name: 'perez marin', last_update: '12/12/12' },
+    // { actor_id: 2, first_name: 'Jose raul', last_name: 'perez Dominguez', last_update: '12/11/12' },
+    // { actor_id: 3, first_name: 'Luis Angel', last_name: 'Solorzano marin', last_update: '12/08/12' }
   ])
+
 
   const [actor, set_actor] = useState({
     first_name: '',
@@ -49,11 +55,12 @@ export default function Actor() {
     )
   }
 
+  console.log('JEEJEJEJEJ',actors)
 
-  const loadActors = () => {
+  const loadActors = (page = 0) => {
 
     toast.info('Loading data!',{autoClose:1000})
-    axios.get(url+'/actors')
+    axios.get(url_api+'/actors/'+page)
       .then(function (response) {
         console.log(response);
         set_actors(response.data.actors)
@@ -68,10 +75,10 @@ export default function Actor() {
 
 
   const delete_actor = (id) => {
-    axios.post(url+'/actor/delete?id=' + id)
+    axios.post(url_api+'/actor/delete?id=' + id)
       .then(function (response) {
         console.log('Eliminacion exitoso')
-        loadActors()
+        loadActors(page)
         toast.success('Operation compelte!')
 
       }).catch(function (error) {
@@ -89,10 +96,10 @@ export default function Actor() {
       last_name: actor.last_name
     }
 
-    axios.post(url+'/actor/' + url, obj_actor)
+    axios.post(url_api+'/actor/'+url, obj_actor)
       .then(function (response) {
         console.log('Guardado exitoso')
-        loadActors()
+        loadActors(page)
         toast.success('Operation compelte!')
         close_form()
 
@@ -219,11 +226,10 @@ export default function Actor() {
             {/* /.card-body */}
             <div className="card-footer clearfix">
               <ul className="pagination pagination-sm m-0 float-right">
-                <li className="page-item"><a className="page-link" href="#">«</a></li>
-                <li className="page-item"><a className="page-link" href="#">1</a></li>
-                <li className="page-item"><a className="page-link" href="#">2</a></li>
-                <li className="page-item"><a className="page-link" href="#">3</a></li>
-                <li className="page-item"><a className="page-link" href="#">»</a></li>
+                { page != 0 &&
+                <li className="page-item"><Link onClick={(e) => set_page(page-1) } className="page-link" >«</Link></li>
+                }
+                <li className="page-item"><Link onClick={(e) => set_page(page+1) } className="page-link" >»</Link></li>
               </ul>
             </div>
           </div>

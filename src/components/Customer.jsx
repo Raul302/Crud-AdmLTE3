@@ -1,17 +1,21 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import url from '../constants/constants';
+import url_api from '../constants/constants';
 import { ToastContainer, toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
 
 export default function Customer() {
 
+    const [page,set_page] = useState(0)
+  
+
   useEffect(() => {
 
-    loadCustomers();
+    loadCustomers(page);
     loadStores();
     loadAddresses();
 
-  }, [])
+  }, [ page ])
 
   const [addresses, set_addresses] = useState([
 
@@ -29,21 +33,21 @@ export default function Customer() {
 
 
   const [customers, set_customers] = useState([
-    { customer_id: 1,store_id: 1 ,  first_name: 'Luis raul', last_name: 'perez marin', email: 'email@email.com',address_id : 1 ,active : 1  },
-    { customer_id: 2,store_id: 1 ,  first_name: 'Jose raul', last_name: 'perez Dominguez', email: 'email@email.com',address_id : 1 ,active : 1  },
-    { customer_id: 3,store_id: 1 ,  first_name: 'Luis Angel', last_name: 'Solorzano marin', email: 'email@email.com',address_id : 2 ,active : 1  },
+    // { customer_id: 1,store_id: 1 ,  first_name: 'Luis raul', last_name: 'perez marin', email: 'email@email.com',address_id : 1 ,active : 1  },
+    // { customer_id: 2,store_id: 1 ,  first_name: 'Jose raul', last_name: 'perez Dominguez', email: 'email@email.com',address_id : 1 ,active : 1  },
+    // { customer_id: 3,store_id: 1 ,  first_name: 'Luis Angel', last_name: 'Solorzano marin', email: 'email@email.com',address_id : 2 ,active : 1  },
     
-    { customer_id: 1,store_id: 1 ,  first_name: 'Luis raul', last_name: 'perez marin', email: 'email@email.com',address_id : 1 ,active : 0  },
-    { customer_id: 2,store_id: 2 ,  first_name: 'Jose raul', last_name: 'perez Dominguez', email: 'email@email.com',address_id : 1 ,active : 1  },
-    { customer_id: 3,store_id: 1 ,  first_name: 'Luis Angel', last_name: 'Solorzano marin', email: 'email@email.com',address_id : 1 ,active : 1  },
+    // { customer_id: 1,store_id: 1 ,  first_name: 'Luis raul', last_name: 'perez marin', email: 'email@email.com',address_id : 1 ,active : 0  },
+    // { customer_id: 2,store_id: 2 ,  first_name: 'Jose raul', last_name: 'perez Dominguez', email: 'email@email.com',address_id : 1 ,active : 1  },
+    // { customer_id: 3,store_id: 1 ,  first_name: 'Luis Angel', last_name: 'Solorzano marin', email: 'email@email.com',address_id : 1 ,active : 1  },
 
-    { customer_id: 1,store_id: 1 ,  first_name: 'Luis raul', last_name: 'perez marin', email: 'email@email.com',address_id : 1 ,active : 0 },
-    { customer_id: 2,store_id: 2 ,  first_name: 'Jose raul', last_name: 'perez Dominguez', email: 'email@email.com',address_id : 2 ,active : 1  },
-    { customer_id: 3,store_id: 1 ,  first_name: 'Luis Angel', last_name: 'Solorzano marin', email: 'email@email.com',address_id : 1 ,active : 1  },
+    // { customer_id: 1,store_id: 1 ,  first_name: 'Luis raul', last_name: 'perez marin', email: 'email@email.com',address_id : 1 ,active : 0 },
+    // { customer_id: 2,store_id: 2 ,  first_name: 'Jose raul', last_name: 'perez Dominguez', email: 'email@email.com',address_id : 2 ,active : 1  },
+    // { customer_id: 3,store_id: 1 ,  first_name: 'Luis Angel', last_name: 'Solorzano marin', email: 'email@email.com',address_id : 1 ,active : 1  },
 
-    { customer_id: 1,store_id: 1 ,  first_name: 'Luis raul', last_name: 'perez marin', email: 'email@email.com',address_id : 1 ,active : 1  },
-    { customer_id: 2,store_id: 1 ,  first_name: 'Jose raul', last_name: 'perez Dominguez', email: 'email@email.com',address_id : 1 ,active : 1  },
-    { customer_id: 3,store_id: 3,  first_name: 'Luis Angel', last_name: 'Solorzano marin', email: 'email@email.com',address_id : 1 ,active : 1  }
+    // { customer_id: 1,store_id: 1 ,  first_name: 'Luis raul', last_name: 'perez marin', email: 'email@email.com',address_id : 1 ,active : 1  },
+    // { customer_id: 2,store_id: 1 ,  first_name: 'Jose raul', last_name: 'perez Dominguez', email: 'email@email.com',address_id : 1 ,active : 1  },
+    // { customer_id: 3,store_id: 3,  first_name: 'Luis Angel', last_name: 'Solorzano marin', email: 'email@email.com',address_id : 1 ,active : 1  }
 
   ])
 
@@ -67,7 +71,7 @@ export default function Customer() {
   const loadStores = () => {
 
     toast.info('Loading data!', { autoClose: 1000 })
-    axios.get(url + '/stores')
+    axios.get(url_api + '/stores')
       .then(function (response) {
         console.log('Carga exitoso')
         console.log(response);
@@ -84,7 +88,7 @@ export default function Customer() {
   const loadAddresses = () => {
 
     toast.info('Loading data!', { autoClose: 1000 })
-    axios.get(url + '/addresses')
+    axios.get(url_api + '/addresses')
       .then(function (response) {
         console.log('Carga exitoso')
         console.log(response);
@@ -98,10 +102,10 @@ export default function Customer() {
 
   }
 
-  const loadCustomers = () => {
+  const loadCustomers = ( page = 0) => {
 
     toast.info('Loading data!',{autoClose:1000})
-    axios.get(url+'/customers')
+    axios.get(url_api+'/customers/'+page)
       .then(function (response) {
         console.log(response);
         set_customers(response.data.customers)
@@ -116,10 +120,10 @@ export default function Customer() {
 
 
   const delete_customer = (id) => {
-    axios.post(url+'/customer/delete?id=' + id)
+    axios.post(url_api+'/customer/delete?id=' + id)
       .then(function (response) {
         console.log('Eliminacion exitoso')
-        loadCustomers()
+        loadCustomers( page)
         toast.success('Operation compelte!')
 
       }).catch(function (error) {
@@ -132,10 +136,10 @@ export default function Customer() {
   const save_or_edit_customer = () => {
     const url = customer.customer_id == 0 ? 'create' : 'edit'
     const obj_customer = {
-      customer_id: customer.customer_id != 0 ? customer.customer_id : null,
+      id: customer.customer_id != 0 ? customer.customer_id : null,
       first_name: customer.first_name,
       last_name: customer.last_name,
-      store_id : customer.store_id,
+      store_id : customer.store_id ? customer.store_id : 1,
       email : customer.email,
       address_id : customer.address_id,
       active: customer.active
@@ -143,10 +147,10 @@ export default function Customer() {
 
     }
 
-    axios.post(url+'/customer/' + url, obj_customer)
+    axios.post(url_api+'/customer/' + url, obj_customer)
       .then(function (response) {
         console.log('Guardado exitoso')
-        loadCustomers()
+        loadCustomers(page)
         toast.success('Operation compelte!')
         close_form()
 
@@ -278,7 +282,7 @@ export default function Customer() {
               <div className="form-group">
 
 <label for="exampleSelectBorder">Active</label>
-        <select value={customer.active} onChange={(e) => change_store_id(e)} class="custom-select form-control-border" id="exampleSelectBorder">
+        <select value={customer.active} onChange={(e) => change_active(e)} class="custom-select form-control-border" id="exampleSelectBorder">
         <option value={1}>Active</option>
         <option value={0}>desactived</option>
 
@@ -316,6 +320,7 @@ export default function Customer() {
                     <th>Last name</th>
                     <th>Email</th>
                     <th>Address ID</th>
+                    <th>Address</th>
                     <th>Active</th>
                     <th>action</th>
                   </tr>
@@ -329,6 +334,9 @@ export default function Customer() {
                       <td>{act.last_name}</td>
                       <td>{act.email}</td>
                       <td>{act.address_id}</td>
+                      <td>{act.address}</td>
+
+              
                       <td>{act.active}</td>
 
                       <td className="text-right py-0 align-middle">
@@ -346,11 +354,11 @@ export default function Customer() {
             {/* /.card-body */}
             <div className="card-footer clearfix">
               <ul className="pagination pagination-sm m-0 float-right">
-                <li className="page-item"><a className="page-link" href="#">«</a></li>
-                <li className="page-item"><a className="page-link" href="#">1</a></li>
-                <li className="page-item"><a className="page-link" href="#">2</a></li>
-                <li className="page-item"><a className="page-link" href="#">3</a></li>
-                <li className="page-item"><a className="page-link" href="#">»</a></li>
+              { page != 0 &&
+                <li className="page-item"><Link onClick={(e) => set_page(page-1) } className="page-link" >«</Link></li>
+                }
+                <li className="page-item"><Link onClick={(e) => set_page(page+1) } className="page-link" >»</Link></li>
+
               </ul>
             </div>
           </div>

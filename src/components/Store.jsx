@@ -1,26 +1,35 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import url from '../constants/constants';
+import { Link } from 'react-router-dom';
 
 
 export default function Store() {
 
+  const [page , set_page] = useState(0)
   useEffect(()=>{
 
-    load_store();
+    load_store( page );
 
-  },[])
+  },[ page ])
 
   const [store,set_store] = useState([
-    {store_id: 1 , manager_staff_id : 1 , staff_fullname: 'staff fullname', address_id: 10 , address: 'Av xochimilco'},
-    {store_id: 1 , manager_staff_id : 1 , staff_fullname: 'staff fullname', address_id: 10 , address: 'Av xochimilco'},
-    {store_id: 1 , manager_staff_id : 1 , staff_fullname: 'staff fullname', address_id: 10 , address: 'Av xochimilco'}
+   
+    // {store_id: 1 , manager_staff_id : 1 , staff_fullname: 'staff fullname', address_id: 10 , address: 'Av xochimilco'},
+    // {store_id: 1 , manager_staff_id : 1 , staff_fullname: 'staff fullname', address_id: 10 , address: 'Av xochimilco'},
+    // {store_id: 1 , manager_staff_id : 1 , staff_fullname: 'staff fullname', address_id: 10 , address: 'Av xochimilco'}
+
+
 ])
 
 
-const load_store = () => {
+const load_store = ( page = 0) => {
 
-  axios.get(url+'/stores')
+//<<<<<<< front_end
+  axios.get(url+'/stores/'+page)
+//=======
+  //axios.get(url+'/stores')
+//>>>>>>> main
   .then(function (response) {
    console.log('Carga exitoso')
    console.log(response);
@@ -72,7 +81,7 @@ const load_store = () => {
                  return( <tr>
                     <td>{stor.store_id}</td>
                     <td>{stor.manager_staff_id}</td>
-                    <td>{stor.staff_fullname}</td>
+                    <td>{stor.fullname_staff}</td>
                     <td>{stor.address_id}</td>
                     <td>{stor.address}</td>
 
@@ -88,12 +97,13 @@ const load_store = () => {
             </div>
             {/* /.card-body */}
             <div className="card-footer clearfix">
-              <ul className="pagination pagination-sm m-0 float-right">
-                <li className="page-item"><a className="page-link" href="#">«</a></li>
-                <li className="page-item"><a className="page-link" href="#">1</a></li>
-                <li className="page-item"><a className="page-link" href="#">2</a></li>
-                <li className="page-item"><a className="page-link" href="#">3</a></li>
-                <li className="page-item"><a className="page-link" href="#">»</a></li>
+            <ul className="pagination pagination-sm m-0 float-right">
+                { page != 0 &&
+                <li className="page-item"><Link onClick={(e) => set_page(page-1) } className="page-link" >«</Link></li>
+                }
+                { store.length >= 10 &&
+                <li className="page-item"><Link onClick={(e) => set_page(page+1) } className="page-link" >»</Link></li>
+                }
               </ul>
             </div>
           </div>

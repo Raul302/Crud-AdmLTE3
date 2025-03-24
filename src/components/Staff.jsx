@@ -1,29 +1,32 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import url from '../constants/constants';
+import { Link } from 'react-router-dom';
 
 
 export default function Staff() {
 
+  const [ page , set_page ] = useState(0);
+
   useEffect(()=>{
 
-    load_staff();
+    load_staff(page);
 
-  },[])
+  },[page])
 
   const [staff,set_staff] = useState([
-    {staff_id: 1 , first_name : 'First name',last_name: 'Last_name', address_id : 10 , address: 'Av xochimilco', picture : 'file.jpg',
-      email: 'Email@email.com',store_id : 10, active : 1 , username : 'raul302'},
-    {staff_id: 1 , first_name : 'First name',last_name: 'Last_name', address_id : 10 , address: 'Av xochimilco', picture : 'file.jpg',
-      email: 'Email@email.com',store_id : 10, active : 1 , username : 'raul302'},
-    {staff_id: 1 , first_name : 'First name',last_name: 'Last_name', address_id : 10 , address: 'Av xochimilco', picture : 'file.jpg',
-      email: 'Email@email.com',store_id : 10, active : 1 , username : 'raul302'}
+    // {staff_id: 1 , first_name : 'First name',last_name: 'Last_name', address_id : 10 , address: 'Av xochimilco', picture : 'file.jpg',
+    //   email: 'Email@email.com',store_id : 10, active : 1 , username : 'raul302'},
+    // {staff_id: 1 , first_name : 'First name',last_name: 'Last_name', address_id : 10 , address: 'Av xochimilco', picture : 'file.jpg',
+    //   email: 'Email@email.com',store_id : 10, active : 1 , username : 'raul302'},
+    // {staff_id: 1 , first_name : 'First name',last_name: 'Last_name', address_id : 10 , address: 'Av xochimilco', picture : 'file.jpg',
+    //   email: 'Email@email.com',store_id : 10, active : 1 , username : 'raul302'}
 ])
 
 
-const load_staff = () => {
+const load_staff = (page) => {
 
-  axios.get(url+'/staff')
+  axios.get(url+'/staff/'+page)
   .then(function (response) {
    console.log('Carga exitoso')
    console.log(response);
@@ -62,8 +65,7 @@ const load_staff = () => {
                 <thead>
                   <tr>
                     <th>Staff ID</th>
-                    <th>First Name</th>
-                    <th>Last Name </th>
+                    <th>Full Name</th>
                     <th>Address ID</th>
                     <th>Address </th>
                     <th>Picture </th>
@@ -79,8 +81,7 @@ const load_staff = () => {
                 {staff.map(staf =>{
                  return( <tr>
                     <td>{staf.staff_id}</td>
-                    <td>{staf.first_name}</td>
-                    <td>{staf.last_name}</td>
+                    <td>{staf.fullname_staff}</td>
                     <td>{staf.address_id}</td>
                     <td>{staf.address}</td>
                     <td><img className="blob-to-image" src={"data:image/png;base64," + staf.picture}></img> </td>
@@ -102,12 +103,13 @@ const load_staff = () => {
             </div>
             {/* /.card-body */}
             <div className="card-footer clearfix">
-              <ul className="pagination pagination-sm m-0 float-right">
-                <li className="page-item"><a className="page-link" href="#">«</a></li>
-                <li className="page-item"><a className="page-link" href="#">1</a></li>
-                <li className="page-item"><a className="page-link" href="#">2</a></li>
-                <li className="page-item"><a className="page-link" href="#">3</a></li>
-                <li className="page-item"><a className="page-link" href="#">»</a></li>
+            <ul className="pagination pagination-sm m-0 float-right">
+                { page != 0 &&
+                <li className="page-item"><Link onClick={(e) => set_page(page-1) } className="page-link" >«</Link></li>
+                }
+                { staff.length >= 10 &&
+                <li className="page-item"><Link onClick={(e) => set_page(page+1) } className="page-link" >»</Link></li>
+                }
               </ul>
             </div>
           </div>
