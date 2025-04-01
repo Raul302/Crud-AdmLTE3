@@ -1,12 +1,43 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import url from '../constants/constants';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { TokenContext } from '../context/TokenContext';
 
 
 export default function Language() {
 
   const [ page , set_page ] = useState(0)
+
+
+
+
+          
+  const navigate = useNavigate();
+
+  const [ read_or_edit , set_read_or_edit ] = useState(false)
+  
+  const { routes_permited, set_routes_permited,user_data , set_user_data, bearer_token, set_bearer_token } = useContext(TokenContext);
+
+    useEffect(()=>{
+      
+         const hasPermission = routes_permited.find((route)=> route.url == '/languages')
+         if(hasPermission){
+          if(hasPermission.permission == 0 ) {
+            navigate("/login")
+
+          }
+           if( hasPermission.permission == 1){
+            set_read_or_edit(true)
+           }
+          
+         } else {
+          navigate("/login")
+         }
+      
+        },[])
+    
+
 
   useEffect(()=>{
 

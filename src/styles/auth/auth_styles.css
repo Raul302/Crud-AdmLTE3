@@ -1,0 +1,10 @@
+/* display:'flex' , justifyContent:'center' , alignContent:'center',alignItems:'center'
+ */
+
+
+ .box_auth{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+ }

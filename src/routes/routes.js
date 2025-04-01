@@ -1,3 +1,4 @@
+import Login from "../auth/Login";
 import Actor from "../components/Actor";
 import Address from "../components/Address";
 import Category from "../components/Category";
@@ -160,8 +161,10 @@ import Store from "../components/Store";
         component: Store,
         icon:'far fa-circle nav-icon"',
         who_can_look:['admin','supervisor']
-
     },
+
+   
+
 
 ];
 export default routes;
