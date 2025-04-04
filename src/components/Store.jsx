@@ -1,30 +1,71 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import url from '../constants/constants';
+import { Link, useNavigate } from 'react-router-dom';
+import { TokenContext } from '../context/TokenContext';
 
 
 export default function Store() {
 
+  const [page , set_page] = useState(0)
+
+
+
+  const navigate = useNavigate();
+
+  const [ read_or_edit , set_read_or_edit ] = useState(false)
+  const [max_page , set_max_page] = useState(0)
+  
+  
+  const { routes_permited, set_routes_permited,user_data , set_user_data, bearer_token, set_bearer_token } = useContext(TokenContext);
+
+    useEffect(()=>{
+      
+         const hasPermission = routes_permited.find((route)=> route.url == '/stores')
+         if(hasPermission){
+          if(hasPermission.permission == 0 ) {
+            navigate("/login")
+
+          }
+           if( hasPermission.permission == 1){
+            set_read_or_edit(true)
+           }
+          
+         } else {
+          navigate("/login")
+         }
+      
+        },[])
+
   useEffect(()=>{
 
-    load_store();
+    load_store( page );
 
-  },[])
+  },[ page ])
 
   const [store,set_store] = useState([
-    {store_id: 1 , manager_staff_id : 1 , staff_fullname: 'staff fullname', address_id: 10 , address: 'Av xochimilco'},
-    {store_id: 1 , manager_staff_id : 1 , staff_fullname: 'staff fullname', address_id: 10 , address: 'Av xochimilco'},
-    {store_id: 1 , manager_staff_id : 1 , staff_fullname: 'staff fullname', address_id: 10 , address: 'Av xochimilco'}
+   
+    // {store_id: 1 , manager_staff_id : 1 , staff_fullname: 'staff fullname', address_id: 10 , address: 'Av xochimilco'},
+    // {store_id: 1 , manager_staff_id : 1 , staff_fullname: 'staff fullname', address_id: 10 , address: 'Av xochimilco'},
+    // {store_id: 1 , manager_staff_id : 1 , staff_fullname: 'staff fullname', address_id: 10 , address: 'Av xochimilco'}
+
+
 ])
 
 
-const load_store = () => {
+const load_store = ( page = 0) => {
 
-  axios.get(url+'/store')
+//<<<<<<< front_end
+  axios.get(url+'/stores/'+page)
+//=======
+  //axios.get(url+'/stores')
+//>>>>>>> main
   .then(function (response) {
    console.log('Carga exitoso')
    console.log(response);
    set_store(response.data.store)
+   set_max_page(Math.ceil(response.data.total_pages) )
+
   
   }).catch(function( error) {
    console.log('Something was wrong')
@@ -72,7 +113,7 @@ const load_store = () => {
                  return( <tr>
                     <td>{stor.store_id}</td>
                     <td>{stor.manager_staff_id}</td>
-                    <td>{stor.staff_fullname}</td>
+                    <td>{stor.fullname_staff}</td>
                     <td>{stor.address_id}</td>
                     <td>{stor.address}</td>
 
@@ -88,12 +129,21 @@ const load_store = () => {
             </div>
             {/* /.card-body */}
             <div className="card-footer clearfix">
-              <ul className="pagination pagination-sm m-0 float-right">
-                <li className="page-item"><a className="page-link" href="#">«</a></li>
-                <li className="page-item"><a className="page-link" href="#">1</a></li>
-                <li className="page-item"><a className="page-link" href="#">2</a></li>
-                <li className="page-item"><a className="page-link" href="#">3</a></li>
-                <li className="page-item"><a className="page-link" href="#">»</a></li>
+            <ul className="pagination pagination-sm m-0 float-right">
+               { page != 0 &&
+                                                                     <>
+                                                                     <li className="page-item"><Link onClick={(e) => set_page(0) } className="page-link" >««</Link></li>
+                                                                     <li className="page-item"><Link onClick={(e) => set_page(page-1) } className="page-link" >«</Link></li>
+                                                                     </>
+                                                                     }
+
+                                                                     {store.length >= 10
+                                                                     &&
+                                                                     <>
+                                                                     <li className="page-item"><Link onClick={(e) => set_page(page+1) } className="page-link" >»</Link></li>
+                                                                     <li className="page-item"><Link onClick={(e) => set_page(max_page) } className="page-link" >»»</Link></li>
+                                                                     </>
+                                                                     }
               </ul>
             </div>
           </div>

@@ -1,34 +1,68 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
-import url from '../constants/constants';
+import React, { useContext, useEffect, useState } from 'react'
+import url_api from '../constants/constants';
 import { ToastContainer, toast } from 'react-toastify';
+import { Link, useNavigate } from 'react-router-dom';
+import { TokenContext } from '../context/TokenContext';
 
 export default function Actor() {
 
+  const navigate = useNavigate();
+
+  const [ read_or_edit , set_read_or_edit ] = useState(false)
+  
+  const { routes_permited, set_routes_permited,user_data , set_user_data, bearer_token, set_bearer_token } = useContext(TokenContext);
+
+  const [page,set_page] = useState(0)
+  const [ max_page , set_max_page ] = useState(0)
+  
+  useEffect(()=>{
+    console.log('HOLA');
+
+   const hasPermission = routes_permited.find((route)=> route.url == '/actor')
+   if(hasPermission){
+    if(hasPermission.permission == 0 ) {
+      navigate("/login")
+
+    }
+     if( hasPermission.permission == 1){
+      set_read_or_edit(true)
+     }
+    
+   } else {
+    navigate("/login")
+   }
+
+  },[])
+  
   useEffect(() => {
+    console.log('Routes permited',routes_permited);
 
-    loadActors();
 
-  }, [])
+
+    loadActors(page);
+
+  }, [page])
+
 
   const [actors, set_actors] = useState([
-    { actor_id: 1, first_name: 'Luis raul', last_name: 'perez marin', last_update: '12/12/12' },
-    { actor_id: 2, first_name: 'Jose raul', last_name: 'perez Dominguez', last_update: '12/11/12' },
-    { actor_id: 3, first_name: 'Luis Angel', last_name: 'Solorzano marin', last_update: '12/08/12' },
+    // { actor_id: 1, first_name: 'Luis raul', last_name: 'perez marin', last_update: '12/12/12' },
+    // { actor_id: 2, first_name: 'Jose raul', last_name: 'perez Dominguez', last_update: '12/11/12' },
+    // { actor_id: 3, first_name: 'Luis Angel', last_name: 'Solorzano marin', last_update: '12/08/12' },
     
-    { actor_id: 1, first_name: 'Luis raul', last_name: 'perez marin', last_update: '12/12/12' },
-    { actor_id: 2, first_name: 'Jose raul', last_name: 'perez Dominguez', last_update: '12/11/12' },
-    { actor_id: 3, first_name: 'Luis Angel', last_name: 'Solorzano marin', last_update: '12/08/12' },
+    // { actor_id: 1, first_name: 'Luis raul', last_name: 'perez marin', last_update: '12/12/12' },
+    // { actor_id: 2, first_name: 'Jose raul', last_name: 'perez Dominguez', last_update: '12/11/12' },
+    // { actor_id: 3, first_name: 'Luis Angel', last_name: 'Solorzano marin', last_update: '12/08/12' },
 
-    { actor_id: 1, first_name: 'Luis raul', last_name: 'perez marin', last_update: '12/12/12' },
-    { actor_id: 2, first_name: 'Jose raul', last_name: 'perez Dominguez', last_update: '12/11/12' },
-    { actor_id: 3, first_name: 'Luis Angel', last_name: 'Solorzano marin', last_update: '12/08/12' },
+    // { actor_id: 1, first_name: 'Luis raul', last_name: 'perez marin', last_update: '12/12/12' },
+    // { actor_id: 2, first_name: 'Jose raul', last_name: 'perez Dominguez', last_update: '12/11/12' },
+    // { actor_id: 3, first_name: 'Luis Angel', last_name: 'Solorzano marin', last_update: '12/08/12' },
 
-    { actor_id: 1, first_name: 'Luis raul', last_name: 'perez marin', last_update: '12/12/12' },
-    { actor_id: 2, first_name: 'Jose raul', last_name: 'perez Dominguez', last_update: '12/11/12' },
-    { actor_id: 3, first_name: 'Luis Angel', last_name: 'Solorzano marin', last_update: '12/08/12' }
-
+    // { actor_id: 1, first_name: 'Luis raul', last_name: 'perez marin', last_update: '12/12/12' },
+    // { actor_id: 2, first_name: 'Jose raul', last_name: 'perez Dominguez', last_update: '12/11/12' },
+    // { actor_id: 3, first_name: 'Luis Angel', last_name: 'Solorzano marin', last_update: '12/08/12' }
   ])
+
 
   const [actor, set_actor] = useState({
     first_name: '',
@@ -49,14 +83,16 @@ export default function Actor() {
     )
   }
 
+  console.log('JEEJEJEJEJ',actors)
 
-  const loadActors = () => {
+  const loadActors = (page = 0) => {
 
     toast.info('Loading data!',{autoClose:1000})
-    axios.get(url+'/actors')
+    axios.get(url_api+'/actors/'+page)
       .then(function (response) {
         console.log(response);
         set_actors(response.data.actors)
+        set_max_page(Math.ceil(response.data.total_pages) )
 
       }).catch(function (error) {
         toast.error('Something was wrong')
@@ -68,10 +104,10 @@ export default function Actor() {
 
 
   const delete_actor = (id) => {
-    axios.post(url+'/actor/delete?id=' + id)
+    axios.post(url_api+'/actor/delete?id=' + id)
       .then(function (response) {
         console.log('Eliminacion exitoso')
-        loadActors()
+        loadActors(page)
         toast.success('Operation compelte!')
 
       }).catch(function (error) {
@@ -89,10 +125,10 @@ export default function Actor() {
       last_name: actor.last_name
     }
 
-    axios.post(url+'/actor/' + url, obj_actor)
+    axios.post(url_api+'/actor/'+url, obj_actor)
       .then(function (response) {
         console.log('Guardado exitoso')
-        loadActors()
+        loadActors(page)
         toast.success('Operation compelte!')
         close_form()
 
@@ -135,7 +171,9 @@ export default function Actor() {
     <section style={{ marginLeft: '20%',marginTop:'3%' }} class="content">
       <div class="row">
       <div  style={{display:'flex',textAlign:'right'}}class="col-md-12 mb-5">
-      <button type="button" onClick={(e) => open_form()} className="btn btn-primary">Create</button>
+      { !read_or_edit &&
+      <button type="button" disabled={read_or_edit} onClick={(e) => open_form()} className="btn btn-primary">Create</button>
+      }
       {/* <button onClick={notify}>Notify !</button> */}
       <ToastContainer />
       </div >
@@ -169,7 +207,7 @@ export default function Actor() {
             </div>
             {/* /.card-body */}
             <div className="card-footer">
-              <button type="button" onClick={(e) => save_or_edit_actor()} className="btn btn-primary">Submit</button>
+              <button type="button"   disabled={read_or_edit} onClick={(e) => save_or_edit_actor()} className="btn btn-primary">Submit</button>
             </div>
           </form>
         </div>
@@ -205,10 +243,14 @@ export default function Actor() {
                       <td>{act.last_update}</td>
 
                       <td className="text-right py-0 align-middle">
+                          {
+                            !read_or_edit
+                          &&
                         <div className="btn-group btn-group-sm">
                           <a onClick={(e) => edit_actor(act)} className="btn btn-info"><i className="fas fa-edit" /></a>
                           <a onClick={(e) => delete_actor(act.actor_id)} className="btn btn-danger"><i className="fas fa-trash" /></a>
                         </div>
+                           }
                       </td>
                     </tr>
                     )
@@ -219,11 +261,16 @@ export default function Actor() {
             {/* /.card-body */}
             <div className="card-footer clearfix">
               <ul className="pagination pagination-sm m-0 float-right">
-                <li className="page-item"><a className="page-link" href="#">«</a></li>
-                <li className="page-item"><a className="page-link" href="#">1</a></li>
-                <li className="page-item"><a className="page-link" href="#">2</a></li>
-                <li className="page-item"><a className="page-link" href="#">3</a></li>
-                <li className="page-item"><a className="page-link" href="#">»</a></li>
+                { page != 0 &&
+                <>
+                <li className="page-item"><Link onClick={(e) => set_page(0) } className="page-link" >««</Link></li>
+                <li className="page-item"><Link onClick={(e) => set_page(page-1) } className="page-link" >«</Link></li>
+                </>
+                }
+                <>
+                <li className="page-item"><Link onClick={(e) => set_page(page+1) } className="page-link" >»</Link></li>
+                <li className="page-item"><Link onClick={(e) => set_page(max_page) } className="page-link" >»»</Link></li>
+                </>
               </ul>
             </div>
           </div>
